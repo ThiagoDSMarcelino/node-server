@@ -1,13 +1,14 @@
-import express, { Express } from 'express';
-import TestRoute from './TestRoute';
+import ClientRoute from './ClientRoute';
+import injectContainer from '../middleware/injectContainer';
+import express, { Router } from 'express';
+import container from '../container';
 
-const configureRoutes = (app: Express): void => {
-	if (!app) {
-		throw new Error('Express app is required.');
-	}
+const router = Router();
 
-	app.use(express.json());
-	app.use('/', TestRoute);
-};
+router.use(express.json());
 
-export default configureRoutes;
+router.use(injectContainer(container));
+
+router.use('/api', ClientRoute);
+
+export default router;

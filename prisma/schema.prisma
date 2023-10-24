@@ -15,15 +15,15 @@ model Admin {
 }
 
 model Client {
-  id          Int          @id @default(autoincrement())
-  email       String       @unique
-  firstName   String
-  lastName    String
-  password    String
-  hash        String
-  CPF         String
-  avaliations Avaliation[]
-  bookings    Booking[]
+  id         Int          @id @default(autoincrement())
+  email      String       @unique
+  firstName  String
+  lastName   String
+  password   String
+  hash       String
+  CPF        String
+  rates Rating[]
+  bookings   Booking[]
 }
 
 model Hotel {
@@ -38,18 +38,8 @@ model Hotel {
   phone        String
   email        String       @unique
   CNPJ         String       @unique
-  avaliations  Avaliation[]
+  rates   Rating[]
   rooms        Room[]
-}
-
-model Avaliation {
-  id         Int     @id @default(autoincrement())
-  client     Client  @relation(fields: [clientId], references: [id])
-  clientId   Int
-  hotel      Hotel   @relation(fields: [hotelId], references: [id])
-  hotelId    Int
-  content    String?
-  avaliation Float
 }
 
 model Room {
@@ -59,20 +49,20 @@ model Room {
   adults     Int
   children   Int
   daily      Decimal
-  hotel      Hotel         @relation(fields: [hotelId], references: [id])
   hotelId    Int
   bookings   Booking[]
   features   FeatureRoom[]
+  hotel      Hotel         @relation(fields: [hotelId], references: [id])
 }
 
 model Booking {
   id       Int      @id @default(autoincrement())
   checkIn  DateTime
   checkOut DateTime
-  client   Client   @relation(fields: [clientId], references: [id])
   clientId Int
-  room     Room     @relation(fields: [roomId], references: [id])
   roomId   Int
+  client   Client   @relation(fields: [clientId], references: [id])
+  room     Room     @relation(fields: [roomId], references: [id])
 }
 
 model Feature {
@@ -83,8 +73,18 @@ model Feature {
 
 model FeatureRoom {
   id        Int     @id @default(autoincrement())
-  feature   Feature @relation(fields: [featureId], references: [id])
   featureId Int
-  room      Room    @relation(fields: [roomId], references: [id])
   roomId    Int
+  feature   Feature @relation(fields: [featureId], references: [id])
+  room      Room    @relation(fields: [roomId], references: [id])
+}
+
+model Rating {
+  id         Int     @id @default(autoincrement())
+  clientId   Int
+  hotelId    Int
+  content    String?
+  rate Float
+  Client     Client  @relation(fields: [clientId], references: [id])
+  Hotel      Hotel   @relation(fields: [hotelId], references: [id])
 }
