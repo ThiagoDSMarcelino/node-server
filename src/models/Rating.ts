@@ -1,10 +1,10 @@
-import Client from './Client';
+import User from './User';
 import Hotel from './Hotel';
 
 interface Rating {
 	id: number;
-	client: Client;
-	clientId: number;
+	user: User;
+	userId: number;
 	hotel: Hotel;
 	hotelId: number;
 	content: string | undefined;

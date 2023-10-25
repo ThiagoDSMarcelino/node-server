@@ -1,5 +1,5 @@
 import { createContainer, asFunction, asValue, asClass } from 'awilix';
-import ClientController from './controllers/ClientController';
+import UserController from './controllers/UserController';
 import express from 'express';
 import db from './db';
 
@@ -8,7 +8,7 @@ const container = createContainer();
 container.register({
 	app: asValue(express()),
 	prisma: asFunction(db).singleton(),
-	clientController: asClass(ClientController).scoped(),
+	userController: asClass(UserController).scoped(),
 });
 
 export default container;

@@ -1,4 +1,4 @@
-interface Client {
+interface User {
 	id: number;
 	email: string;
 	firstName: string;
@@ -8,4 +8,4 @@ interface Client {
 	CPF: string;
 }
 
-export default Client;
+export default User;

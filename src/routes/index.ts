@@ -1,4 +1,4 @@
-import ClientRoute from './ClientRoute';
+import ClientRoute from './UserRoute';
 import express, { Router } from 'express';
 
 const router = Router();
