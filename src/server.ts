@@ -7,8 +7,8 @@ import 'dotenv/config';
 const app = container.resolve('app');
 
 app.use(cors());
-app.use(routes);
 app.use(scopePerRequest(container));
+app.use(routes);
 
 const port = process.env.PORT;
 app.listen(port, () => console.log(`Listening on http://localhost:${port}/`));

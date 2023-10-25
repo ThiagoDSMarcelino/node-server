@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import Repository from '../interfaces/Repository';
 import Client from '../models/Client';
 
-export class ClientService implements Repository<Client> {
+export class ClientController implements Repository<Client> {
 	private prisma: PrismaClient;
 
 	constructor({ prisma }: { prisma: PrismaClient }) {
@@ -14,4 +14,4 @@ export class ClientService implements Repository<Client> {
 	}
 }
 
-export default ClientService;
+export default ClientController;

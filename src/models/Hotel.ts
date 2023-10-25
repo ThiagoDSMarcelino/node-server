@@ -1,6 +1,3 @@
-import Rating from './Rating';
-import Room from './Room';
-
 interface Hotel {
 	id: number;
 	name: string;
