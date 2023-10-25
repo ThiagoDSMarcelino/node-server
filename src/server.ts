@@ -1,39 +1,14 @@
-import { PrismaClient } from '@prisma/client';
-import configureRoutes from './routes';
-import express from 'express';
-import 'dotenv/config';
+import { scopePerRequest } from 'awilix-express';
+import container from './container';
+import routes from './routes';
 import cors from 'cors';
+import 'dotenv/config';
 
-const app = express();
+const app = container.resolve('app');
 
 app.use(cors());
+app.use(routes);
+app.use(scopePerRequest(container));
 
-configureRoutes(app);
-
-const prisma = new PrismaClient();
-
-async function main() {
-	const user = await prisma.user.create({
-		data: {
-			name: 'Test',
-			email: 'teste@email.com',
-		},
-	});
-
-	console.log(user);
-}
-
-main()
-	.then(async () => {
-		console.log('Work it');
-	})
-	.catch(async (e) => {
-		console.error(e);
-		process.exit(1);
-	})
-	.finally(async () => {
-		await prisma.$disconnect();
-	});
-
-const port = process.env.PORT || 8000;
+const port = process.env.PORT;
 app.listen(port, () => console.log(`Listening on http://localhost:${port}/`));

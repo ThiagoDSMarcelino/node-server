@@ -1,15 +1,5 @@
 {
-	"cSpell.words": [
-		"Adicionar",
-		"fontawesome",
-		"formik",
-		"fortawesome",
-		"Offcanvas",
-		"Sair",
-		"signin",
-		"signup",
-		"Thiago"
-	],
+	"cSpell.words": ["awilix", "CNPJ"],
 	"editor.formatOnSave": true,
 	"prettier.requireConfig": true,
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -24,5 +14,8 @@
 	},
 	"[html]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[prisma]": {
+		"editor.defaultFormatter": "Prisma.prisma"
 	}
 }
