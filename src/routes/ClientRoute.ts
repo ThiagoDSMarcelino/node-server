@@ -1,11 +1,12 @@
 import ClientService from '../services/ClientService';
+import container from '../container';
 import { Router } from 'express';
 
 const ClientRoute = Router();
 
-ClientRoute.get('/', async (req, res) => {
+ClientRoute.get('/', async (_, res) => {
 	try {
-		const service = req.container.resolve<ClientService>('clientService');
+		const service = container.resolve<ClientService>('clientService');
 		const data = await service.list();
 		return res.status(200).json(data);
 	} catch (error) {

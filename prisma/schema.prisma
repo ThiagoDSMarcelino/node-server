@@ -14,21 +14,21 @@ model Admin {
   hash     String
 }
 
-model Client {
-  id         Int          @id @default(autoincrement())
-  email      String       @unique
-  firstName  String
-  lastName   String
-  password   String
-  hash       String
-  CPF        String
-  rates Rating[]
-  bookings   Booking[]
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  firstName String
+  lastName  String
+  password  String
+  hash      String
+  CPF       String
+  bookings  Booking[]
+  rates     Rating[]
 }
 
 model Hotel {
-  id           Int          @id @default(autoincrement())
-  name         String       @unique
+  id           Int      @id @default(autoincrement())
+  name         String   @unique
   city         String
   neighborhood String
   complement   String
@@ -36,9 +36,9 @@ model Hotel {
   country      String
   state        String
   phone        String
-  email        String       @unique
-  CNPJ         String       @unique
-  rates   Rating[]
+  email        String   @unique
+  CNPJ         String   @unique
+  rates        Rating[]
   rooms        Room[]
 }
 
@@ -59,10 +59,10 @@ model Booking {
   id       Int      @id @default(autoincrement())
   checkIn  DateTime
   checkOut DateTime
-  clientId Int
   roomId   Int
-  client   Client   @relation(fields: [clientId], references: [id])
+  userId   Int
   room     Room     @relation(fields: [roomId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
 }
 
 model Feature {
@@ -80,11 +80,11 @@ model FeatureRoom {
 }
 
 model Rating {
-  id         Int     @id @default(autoincrement())
-  clientId   Int
-  hotelId    Int
-  content    String?
-  rate Float
-  Client     Client  @relation(fields: [clientId], references: [id])
-  Hotel      Hotel   @relation(fields: [hotelId], references: [id])
+  id      Int     @id @default(autoincrement())
+  hotelId Int
+  content String?
+  rate    Float
+  userId  Int
+  Hotel   Hotel   @relation(fields: [hotelId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
 }

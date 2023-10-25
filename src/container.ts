@@ -1,15 +1,14 @@
 import { createContainer, asFunction, asValue, asClass } from 'awilix';
-import { PrismaClient } from '@prisma/client';
-import express from 'express';
 import ClientService from './services/ClientService';
+import express from 'express';
+import db from './db';
 
 const container = createContainer();
-const app = express();
 
 container.register({
-	app: asValue(app),
-	prisma: asFunction(() => new PrismaClient()),
-	clientService: asClass(ClientService).singleton(),
+	app: asValue(express()),
+	prisma: asFunction(db).singleton(),
+	clientService: asClass(ClientService).scoped(),
 });
 
 export default container;

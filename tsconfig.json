@@ -1,6 +1,5 @@
 {
 	"compilerOptions": {
-		"typeRoots": ["./custom-definitions", "./node_modules/@types"],
 		"esModuleInterop": true,
 		"target": "ES6",
 		"module": "CommonJS",
@@ -8,6 +7,6 @@
 		"rootDir": "./src",
 		"strict": true
 	},
-	"include": ["src/**/*.ts", "custom.d.ts"],
+	"include": ["src/**/*.ts"],
 	"exclude": ["node_modules"]
 }
