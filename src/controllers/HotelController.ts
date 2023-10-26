@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import Hotel from '../models/Hotel/Hotel';
 import HotelDTO from '../models/Hotel/UpdateHotel';
 
-export class HotelController {
+class HotelController {
 	private prisma: PrismaClient;
 
 	constructor({ prisma }: { prisma: PrismaClient }) {
