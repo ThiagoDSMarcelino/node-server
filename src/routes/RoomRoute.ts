@@ -1,0 +1,31 @@
+import RoomController from '../controllers/RoomController';
+import SearchRoom from '../models/Room/SearchRoom';
+import container from '../container';
+import { Router } from 'express';
+import Room from '../models/Room/Room';
+
+const RoomRoute = Router();
+
+RoomRoute.get('/', async (_, res) => {
+	try {
+		const service = container.resolve<RoomController>('roomController');
+		const data = await service.getAll();
+		return res.status(200).json(data);
+	} catch (error) {
+		console.log(error);
+		return res.status(500).send('Internal Server Error');
+	}
+});
+
+RoomRoute.get('/', async (req, res) => {
+	const filters: SearchRoom = req.body;
+	try {
+		const service = container.resolve<RoomController>('roomController');
+		const data = await service.getFiltered(filters);
+	} catch (error) {
+		console.log(error);
+		return res.status(500).send('Room not found');
+	}
+});
+
+export default RoomRoute;

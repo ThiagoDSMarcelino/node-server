@@ -1,5 +1,5 @@
 import Feature from './Feature';
-import Room from './Room';
+import Room from './Room/Room';
 
 interface FeatureRoom {
 	id: number;

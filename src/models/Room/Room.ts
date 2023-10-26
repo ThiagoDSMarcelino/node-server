@@ -1,4 +1,4 @@
-import Hotel from './Hotel/Hotel';
+import { Decimal } from '@prisma/client/runtime/library';
 
 interface Room {
 	id: number;
@@ -6,8 +6,7 @@ interface Room {
 	singleBed: number;
 	adults: number;
 	children: number;
-	daily: number;
-	hotel: Hotel;
+	daily: Decimal;
 	hotelId: number;
 }
 

@@ -22,7 +22,6 @@ export class HotelController {
 	}
 
 	async create(hotel: Hotel): Promise<Hotel> {
-		console.log(hotel);
 		const createdHotel = await this.prisma.hotel.create({ data: hotel });
 		return createdHotel;
 	}
