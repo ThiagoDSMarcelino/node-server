@@ -1,6 +1,7 @@
-import HotelController from '../controllers/HotelController';
-import container from '../container';
 import { Router } from 'express';
+
+import container from '../container';
+import HotelController from '../controllers/HotelController';
 
 const HotelRoute = Router();
 
@@ -40,7 +41,7 @@ HotelRoute.post('/', async (req, res) => {
 });
 
 HotelRoute.put('/', async (req, res) => {
-	const  hotel  = req.body;
+	const hotel = req.body;
 
 	try {
 		const service = container.resolve<HotelController>('hotelController');

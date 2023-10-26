@@ -1,52 +1,77 @@
-import ISecurityService from '../interfaces/ISecurityService';
-import CreateUser from '../models/User/CreateUser';
-import { PrismaClient } from '@prisma/client';
-import User from '../models/User/User';
-import container from '../container';
 import { v4 as uuidv4 } from 'uuid';
 
-export class UserController {
+import { PrismaClient } from '@prisma/client';
+
+import container from '../container';
+import ISecurityService from '../interfaces/ISecurityService';
+import CreateUser from '../models/User/CreateUser';
+import User from '../models/User/User';
+import UserDTO from '../models/User/UserDTO';
+
+class UserController {
 	private prisma: PrismaClient;
+	private securityService: ISecurityService;
 
-	constructor({ prisma }: { prisma: PrismaClient }) {
+	public constructor({ prisma }: { prisma: PrismaClient }) {
 		this.prisma = prisma;
+		this.securityService =
+			container.resolve<ISecurityService>('securityService');
 	}
 
-	async getAll(): Promise<User[]> {
-		throw new Error('Method not implemented.');
-	}
-
-	async getByID(id: string): Promise<User> {
-		throw new Error('Method not implemented.');
-	}
-
-	async create(user: CreateUser): Promise<String> {
-		const security = container.resolve<ISecurityService>('securityService');
-
-		const hashedPassword = await security.encryptPassword(user.password);
+	public async create(data: CreateUser): Promise<String> {
+		const hashedPassword = await this.securityService.encryptPassword(
+			data.password,
+		);
 
 		const newUser: User = {
 			id: uuidv4(),
-			email: user.email,
-			firstName: user.firstName,
-			lastName: user.lastName,
+			email: data.email,
+			firstName: data.firstName,
+			lastName: data.lastName,
 			password: hashedPassword,
-			CPF: user.CPF,
+			CPF: data.CPF,
 		};
 
-		const res = await this.prisma.user.create({ data: newUser });
+		const user = await this.prisma.user.create({ data: newUser });
+		const dto = this.convertUser(user);
 
-		const token = await security.genJWT(res);
+		const res = await this.securityService.genJWT(dto);
 
-		return token;
+		return res;
 	}
 
-	async update(id: string): Promise<User> {
-		throw new Error('Method not implemented.');
+	public async getAll(): Promise<UserDTO[]> {
+		const users = await this.prisma.user.findMany();
+
+		const res = users.map((user) => this.convertUser(user));
+
+		return res;
 	}
 
-	async delete(id: string): Promise<User> {
-		throw new Error('Method not implemented.');
+	public async getById(token: string): Promise<UserDTO> {
+		const { id } = await this.securityService.checkJWT<UserDTO>(token);
+		const user = await this.prisma.user.findFirstOrThrow({
+			where: { id: id },
+		});
+
+		return this.convertUser(user);
+	}
+
+	public async delete(id: string): Promise<UserDTO> {
+		const user = await this.prisma.user.delete({
+			where: { id: id },
+		});
+
+		return this.convertUser(user);
+	}
+
+	private convertUser(user: User): UserDTO {
+		const dto: UserDTO = {
+			id: user.id,
+			name: `${user.firstName} ${user.lastName}`,
+		};
+
+		return dto;
 	}
 }
 

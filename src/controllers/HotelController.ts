@@ -1,8 +1,9 @@
 import { PrismaClient } from '@prisma/client';
-import HotelDTO from '../models/Hotel/UpdateHotel';
-import Hotel from '../models/Hotel/Hotel';
 
-export class HotelController {
+import Hotel from '../models/Hotel/Hotel';
+import HotelDTO from '../models/Hotel/UpdateHotel';
+
+class HotelController {
 	private prisma: PrismaClient;
 
 	constructor({ prisma }: { prisma: PrismaClient }) {

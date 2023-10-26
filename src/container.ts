@@ -1,9 +1,10 @@
-import { createContainer, asFunction, asClass } from 'awilix';
-import UserController from './controllers/UserController';
+import { asClass, asFunction, createContainer } from 'awilix';
+
 import HotelController from './controllers/HotelController';
+import UserController from './controllers/UserController';
+import db from './db';
 import RoomController from './controllers/RoomController';
 import SecurityService from './services/SecurityService';
-import db from './db';
 
 const container = createContainer();
 

@@ -1,3 +1,4 @@
+import Room from './Room';
 import User from './User/User';
 import Room from './Room/Room';
 
