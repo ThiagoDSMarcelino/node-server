@@ -1,10 +1,11 @@
-import HotelController from '../controllers/HotelController';
-import container from '../container';
 import { Router } from 'express';
+
+import container from '../container';
+import HotelController from '../controllers/HotelController';
 
 const HotelRoute = Router();
 
-HotelRoute.get('/hotel', async (_, res) => {
+HotelRoute.get('/', async (_, res) => {
 	try {
 		const service = container.resolve<HotelController>('hotelController');
 		const data = await service.getAll();
@@ -15,7 +16,7 @@ HotelRoute.get('/hotel', async (_, res) => {
 	}
 });
 
-HotelRoute.get('/hotel/:id', async (req, res) => {
+HotelRoute.get('/:id', async (req, res) => {
 	const { id } = req.params;
 	try {
 		const service = container.resolve<HotelController>('hotelController');
@@ -27,7 +28,7 @@ HotelRoute.get('/hotel/:id', async (req, res) => {
 	}
 });
 
-HotelRoute.post('/hotel', async (req, res) => {
+HotelRoute.post('/', async (req, res) => {
 	const hotel = req.body;
 	try {
 		const service = container.resolve<HotelController>('hotelController');
@@ -39,8 +40,8 @@ HotelRoute.post('/hotel', async (req, res) => {
 	}
 });
 
-HotelRoute.put('/hotel', async (req, res) => {
-	const { hotel } = req.body;
+HotelRoute.put('/', async (req, res) => {
+	const hotel = req.body;
 
 	try {
 		const service = container.resolve<HotelController>('hotelController');
@@ -52,7 +53,7 @@ HotelRoute.put('/hotel', async (req, res) => {
 	}
 });
 
-HotelRoute.delete('/hotel', async (req, res) => {
+HotelRoute.delete('/', async (req, res) => {
 	const { id } = req.body;
 	try {
 		const service = container.resolve<HotelController>('hotelController');

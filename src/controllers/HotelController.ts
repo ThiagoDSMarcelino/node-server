@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 
-import HotelDTO from '../DTO/HotelDTO';
-import Hotel from '../models/Hotel';
+import Hotel from '../models/Hotel/Hotel';
+import HotelDTO from '../models/Hotel/UpdateHotel';
 
 export class HotelController {
 	private prisma: PrismaClient;
@@ -23,6 +23,7 @@ export class HotelController {
 	}
 
 	async create(hotel: Hotel): Promise<Hotel> {
+		console.log(hotel);
 		const createdHotel = await this.prisma.hotel.create({ data: hotel });
 		return createdHotel;
 	}
@@ -44,7 +45,7 @@ export class HotelController {
 
 		const updatedHotel = await this.prisma.hotel.update({
 			where: {
-				id: hotel.id,
+				id: h.id,
 			},
 			data: h,
 		});

@@ -1,9 +1,11 @@
-import { scopePerRequest } from 'awilix-express';
-import container from './container';
-import express from 'express';
-import routes from './routes';
-import cors from 'cors';
 import 'dotenv/config';
+
+import { scopePerRequest } from 'awilix-express';
+import cors from 'cors';
+import express from 'express';
+
+import container from './container';
+import routes from './routes';
 
 const app = express();
 

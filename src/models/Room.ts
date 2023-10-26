@@ -1,4 +1,4 @@
-import Hotel from './Hotel';
+import Hotel from './Hotel/Hotel';
 
 interface Room {
 	id: number;

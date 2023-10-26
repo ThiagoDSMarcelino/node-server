@@ -1,5 +1,5 @@
-import User from './User/User';
 import Room from './Room';
+import User from './User/User';
 
 interface Booking {
 	id: number;
