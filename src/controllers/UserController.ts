@@ -1,66 +1,53 @@
+import ISecurityService from '../interfaces/ISecurityService';
+import CreateUser from '../models/User/CreateUser';
 import { PrismaClient } from '@prisma/client';
-import Repository from '../interfaces/Repository';
-import User from '../models/User';
+import User from '../models/User/User';
+import container from '../container';
+import { v4 as uuidv4 } from 'uuid';
 
-export class UserController implements Repository<User> {
+export class UserController {
 	private prisma: PrismaClient;
 
 	constructor({ prisma }: { prisma: PrismaClient }) {
 		this.prisma = prisma;
 	}
-	getAll(): Promise<User[]> {
-		throw new Error('Method not implemented.');
-	}
-	getByID(id: number): Promise<User> {
-		throw new Error('Method not implemented.');
-	}
-	create(obj: User): Promise<User> {
-		throw new Error('Method not implemented.');
-	}
-	update(obj: User): Promise<User> {
-		throw new Error('Method not implemented.');
-	}
-	delete(id: number): Promise<User> {
+
+	async getAll(): Promise<User[]> {
 		throw new Error('Method not implemented.');
 	}
 
-	// async getAll(): Promise<User[]> {
-	// 	return await this.prisma.user.findMany();
-	// }
+	async getByID(id: string): Promise<User> {
+		throw new Error('Method not implemented.');
+	}
 
-	// async getByID(id: number): Promise<User> {
-	// 	const user = await this.prisma.user.findFirstOrThrow({
-	// 		where: { id: id },
-	// 	});
+	async create(user: CreateUser): Promise<String> {
+		const security = container.resolve<ISecurityService>('securityService');
 
-	// 	return user;
-	// }
+		const hashedPassword = await security.encryptPassword(user.password);
 
-	// async create(user: User): Promise<User> {
-	// 	const createdUser = await this.prisma.user.create({ data: user });
-	// 	return createdUser;
-	// }
+		const newUser: User = {
+			id: uuidv4(),
+			email: user.email,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			password: hashedPassword,
+			CPF: user.CPF,
+		};
 
-	// async update(user: User): Promise<User> {
-	// 	// const u = await this.prisma .user.findUnique({where: {id: user.id}})
+		const res = await this.prisma.user.create({ data: newUser });
 
-	// 	const updatedUser = await this.prisma.user.update({
-	// 		where: {
-	// 			id: user.id,
-	// 		},
-	// 		data: user,
-	// 	});
+		const token = await security.genJWT(res);
 
-	// 	return updatedUser;
-	// }
+		return token;
+	}
 
-	// async delete(id: number): Promise<User> {
-	// 	const deletedUser = await this.prisma.user.delete({
-	// 		where: { id: id },
-	// 	});
+	async update(id: string): Promise<User> {
+		throw new Error('Method not implemented.');
+	}
 
-	// 	return deletedUser;
-	// }
+	async delete(id: string): Promise<User> {
+		throw new Error('Method not implemented.');
+	}
 }
 
 export default UserController;
