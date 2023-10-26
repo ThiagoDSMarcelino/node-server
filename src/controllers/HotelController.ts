@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import HotelDTO from '../DTO/HotelDTO';
 import Repository from '../interfaces/Repository';
 import Hotel from '../models/Hotel';
 
@@ -7,6 +8,9 @@ export class HotelController implements Repository<Hotel> {
 
 	constructor({ prisma }: { prisma: PrismaClient }) {
 		this.prisma = prisma;
+	}
+	update(id: number): Promise<Hotel> {
+		throw new Error('Method not implemented.');
 	}
 
 	async getAll(): Promise<Hotel[]> {
@@ -26,22 +30,34 @@ export class HotelController implements Repository<Hotel> {
 		return createdHotel;
 	}
 
-	async update(hotel: Hotel): Promise<Hotel> {
-		// const u = await this.prisma .user.findUnique({where: {id: user.id}})
+	// async update(hotel: HotelDTO): Promise<Hotel> {
+	// 	const h = await this.prisma.hotel.findFirstOrThrow({
+	// 		where: { id: hotel.id },
+	// 	});
 
-		const updatedHotel = await this.prisma.hotel.update({
-			where: {
-				id: hotel.id,
-			},
-			data: hotel,
-		});
+		// h.name = hotel.name;
+		// h.city = hotel.city;
+		// h.neighborhood = hotel.neighborhood;
+		// h.complement = hotel.complement;
+		// h.CEP = hotel.CEP;
+		// h.country = hotel.country;
+		// h.state = hotel.state;
+		// h.phone = hotel.phone;
+		// h.email = hotel.email;
 
-		return updatedHotel;
-	}
+		// const updatedHotel = await this.prisma.hotel.update({
+		// 	where: {
+		// 		id: hotel.id,
+		// 	},
+		// 	data: { h },
+		// });
 
-	async delete(hotel: Hotel): Promise<Hotel> {
+	// 	return h;
+	// }
+
+	async delete(id: number): Promise<Hotel> {
 		const deletedHotel = await this.prisma.hotel.delete({
-			where: { id: hotel.id },
+			where: { id: id },
 		});
 
 		return deletedHotel;

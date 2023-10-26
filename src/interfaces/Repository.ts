@@ -1,9 +1,9 @@
 interface Repository<T> {
 	getAll(): Promise<T[]>;
 	getByID(id: number): Promise<T>;
-	create(user: T): Promise<T>;
-	update(user: T): Promise<T>;
-	delete(user: T): Promise<T>;
+	create(obj: T): Promise<T>;
+	update(id: number): Promise<T>;
+	delete(id: number): Promise<T>;
 }
 
 export default Repository;

@@ -8,6 +8,9 @@ export class UserController implements Repository<User> {
 	constructor({ prisma }: { prisma: PrismaClient }) {
 		this.prisma = prisma;
 	}
+	update(id: number): Promise<User> {
+		throw new Error('Method not implemented.');
+	}
 
 	async getAll(): Promise<User[]> {
 		return await this.prisma.user.findMany();
@@ -26,22 +29,22 @@ export class UserController implements Repository<User> {
 		return createdUser;
 	}
 
-	async update(user: User): Promise<User> {
-		// const u = await this.prisma .user.findUnique({where: {id: user.id}})
+	// async update(user: User): Promise<User> {
+	// 	// const u = await this.prisma .user.findUnique({where: {id: user.id}})
 
-		const updatedUser = await this.prisma.user.update({
-			where: {
-				id: user.id,
-			},
-			data: user,
-		});
+	// 	const updatedUser = await this.prisma.user.update({
+	// 		where: {
+	// 			id: user.id,
+	// 		},
+	// 		data: user,
+	// 	});
 
-		return updatedUser;
-	}
+	// 	return updatedUser;
+	// }
 
-	async delete(user: User): Promise<User> {
+	async delete(id: number): Promise<User> {
 		const deletedUser = await this.prisma.user.delete({
-			where: { id: user.id },
+			where: { id: id },
 		});
 
 		return deletedUser;
