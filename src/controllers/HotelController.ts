@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+
 import HotelDTO from '../DTO/HotelDTO';
 import Hotel from '../models/Hotel';
 

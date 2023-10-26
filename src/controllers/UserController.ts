@@ -1,23 +1,18 @@
+import { v4 as uuidv4 } from 'uuid';
+
+import { PrismaClient } from '@prisma/client';
+
+import container from '../container';
 import ISecurityService from '../interfaces/ISecurityService';
 import CreateUser from '../models/User/CreateUser';
-import { PrismaClient } from '@prisma/client';
 import User from '../models/User/User';
-import container from '../container';
-import { v4 as uuidv4 } from 'uuid';
+import UserDTO from '../models/User/UserDTO';
 
 export class UserController {
 	private prisma: PrismaClient;
 
 	constructor({ prisma }: { prisma: PrismaClient }) {
 		this.prisma = prisma;
-	}
-
-	async getAll(): Promise<User[]> {
-		throw new Error('Method not implemented.');
-	}
-
-	async getByID(id: string): Promise<User> {
-		throw new Error('Method not implemented.');
 	}
 
 	async create(user: CreateUser): Promise<String> {
@@ -41,11 +36,7 @@ export class UserController {
 		return token;
 	}
 
-	async update(id: string): Promise<User> {
-		throw new Error('Method not implemented.');
-	}
-
-	async delete(id: string): Promise<User> {
+	async getAll(): Promise<UserDTO[]> {
 		throw new Error('Method not implemented.');
 	}
 }

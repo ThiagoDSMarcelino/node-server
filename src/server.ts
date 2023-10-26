@@ -9,7 +9,7 @@ const app = express();
 
 app.use(cors());
 app.use(scopePerRequest(container));
-app.use(routes);
+app.use('/api', routes);
 
 const port = process.env.PORT;
 app.listen(port, () => console.log(`Listening on http://localhost:${port}/`));

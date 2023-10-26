@@ -6,7 +6,7 @@ const router = Router();
 
 router.use(express.json());
 
-router.use('/api', UserRoute);
+router.use('/user', UserRoute);
 router.use('/hotel', HotelRoute);
 
 export default router;
