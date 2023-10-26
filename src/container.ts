@@ -1,4 +1,4 @@
-import { createContainer, asFunction, asValue, asClass } from 'awilix';
+import { createContainer, asFunction, asClass } from 'awilix';
 import UserController from './controllers/UserController';
 import SecurityService from './services/SecurityService';
 import db from './db';
@@ -6,7 +6,8 @@ import db from './db';
 const container = createContainer();
 
 container.register({
-	prisma: asFunction(db).singleton(), // Database
+	 // Database
+	prisma: asFunction(db).singleton(),
 
 	// Controllers
 	userController: asClass(UserController).scoped(),
