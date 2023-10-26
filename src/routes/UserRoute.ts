@@ -2,9 +2,9 @@ import UserController from '../controllers/UserController';
 import container from '../container';
 import { Router } from 'express';
 
-const ClientRoute = Router();
+const UserRoute = Router();
 
-ClientRoute.get('/', async (_, res) => {
+UserRoute.get('/', async (_, res) => {
 	try {
 		const service = container.resolve<UserController>('userController');
 		const data = await service.getAll();
@@ -15,7 +15,7 @@ ClientRoute.get('/', async (_, res) => {
 	}
 });
 
-ClientRoute.post('/', async (req, res) => {
+UserRoute.post('/', async (req, res) => {
 	const user = req.body;
 	try {
 		const service = container.resolve<UserController>('userController');
@@ -27,4 +27,4 @@ ClientRoute.post('/', async (req, res) => {
 	}
 });
 
-export default ClientRoute;
+export default UserRoute;

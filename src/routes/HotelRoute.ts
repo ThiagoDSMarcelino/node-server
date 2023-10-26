@@ -2,9 +2,9 @@ import HotelController from '../controllers/HotelController';
 import container from '../container';
 import { Router } from 'express';
 
-const ClientRoute = Router();
+const HotelRoute = Router();
 
-ClientRoute.get('/', async (_, res) => {
+HotelRoute.get('/hotel', async (_, res) => {
 	try {
 		const service = container.resolve<HotelController>('hotelController');
 		const data = await service.getAll();
@@ -15,7 +15,7 @@ ClientRoute.get('/', async (_, res) => {
 	}
 });
 
-ClientRoute.get('/:id', async (req, res) => {
+HotelRoute.get('/hotel/:id', async (req, res) => {
 	const { id } = req.params;
 	try {
 		const service = container.resolve<HotelController>('hotelController');
@@ -27,7 +27,34 @@ ClientRoute.get('/:id', async (req, res) => {
 	}
 });
 
-ClientRoute.delete('/', async (req, res) => {
+HotelRoute.post('/hotel', async (req, res) => {
+	const hotel = req.body;
+	try{
+		const service = container.resolve<HotelController>('hotelController');
+		const data = await service.create(hotel);
+		return res.status(201).json(data);
+	} catch(error) {
+		console.log(error);
+		return res.status(500).send("Failed to create hotel")
+	}
+})
+
+
+HotelRoute.put('/hotel', async (req, res) => {
+	const { hotel } = req.body;
+
+	try{
+		const service = container.resolve<HotelController>('hotelController')
+		const data = await service.update(hotel);
+		return res.status(200).json(data);
+	} catch(error) {
+		console.log(error)
+		return res.status(500).send("Failed to update hotel")
+	}
+})
+
+
+HotelRoute.delete('/hotel', async (req, res) => {
 	const { id } = req.body;
 	try {
 		const service = container.resolve<HotelController>('hotelController');
@@ -39,17 +66,6 @@ ClientRoute.delete('/', async (req, res) => {
 	}
 });
 
-// ClientRoute.put('/', async (req, res) => {
-// 	const { hotel } = req.body;
 
-// 	try{
-// 		const service = container.resolve<HotelController>('hotelController')
-// 		const data = await service.update(hotel);
-// 		return res.status(200).json(data);
-// 	} catch(error) {
-// 		console.log(error)
-// 		return res.status(500).send("Failed to update hotel")
-// 	}
-// })
 
-export default ClientRoute;
+export default HotelRoute;
