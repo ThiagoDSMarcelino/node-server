@@ -2,9 +2,9 @@ import UserController from '../controllers/UserController';
 import container from '../container';
 import { Router } from 'express';
 
-const ClientRoute = Router();
+const UserRoute = Router();
 
-ClientRoute.post('/', async (req, res) => {
+UserRoute.post('/', async (req, res) => {
 	const user = req.body;
 
 	try {
@@ -18,4 +18,4 @@ ClientRoute.post('/', async (req, res) => {
 	}
 });
 
-export default ClientRoute;
+export default UserRoute;
