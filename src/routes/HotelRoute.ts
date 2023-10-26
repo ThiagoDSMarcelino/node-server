@@ -4,7 +4,7 @@ import { Router } from 'express';
 
 const HotelRoute = Router();
 
-HotelRoute.get('/hotel', async (_, res) => {
+HotelRoute.get('/', async (_, res) => {
 	try {
 		const service = container.resolve<HotelController>('hotelController');
 		const data = await service.getAll();
@@ -15,7 +15,7 @@ HotelRoute.get('/hotel', async (_, res) => {
 	}
 });
 
-HotelRoute.get('/hotel/:id', async (req, res) => {
+HotelRoute.get('/:id', async (req, res) => {
 	const { id } = req.params;
 	try {
 		const service = container.resolve<HotelController>('hotelController');
@@ -27,34 +27,32 @@ HotelRoute.get('/hotel/:id', async (req, res) => {
 	}
 });
 
-HotelRoute.post('/hotel', async (req, res) => {
+HotelRoute.post('/', async (req, res) => {
 	const hotel = req.body;
-	try{
+	try {
 		const service = container.resolve<HotelController>('hotelController');
 		const data = await service.create(hotel);
 		return res.status(201).json(data);
-	} catch(error) {
+	} catch (error) {
 		console.log(error);
-		return res.status(500).send("Failed to create hotel")
+		return res.status(500).send('Failed to create hotel');
 	}
-})
+});
 
+HotelRoute.put('/', async (req, res) => {
+	const  hotel  = req.body;
 
-HotelRoute.put('/hotel', async (req, res) => {
-	const { hotel } = req.body;
-
-	try{
-		const service = container.resolve<HotelController>('hotelController')
+	try {
+		const service = container.resolve<HotelController>('hotelController');
 		const data = await service.update(hotel);
 		return res.status(200).json(data);
-	} catch(error) {
-		console.log(error)
-		return res.status(500).send("Failed to update hotel")
+	} catch (error) {
+		console.log(error);
+		return res.status(500).send('Failed to update hotel');
 	}
-})
+});
 
-
-HotelRoute.delete('/hotel', async (req, res) => {
+HotelRoute.delete('/', async (req, res) => {
 	const { id } = req.body;
 	try {
 		const service = container.resolve<HotelController>('hotelController');
@@ -65,7 +63,5 @@ HotelRoute.delete('/hotel', async (req, res) => {
 		return res.status(500).send('Failed to delete hotel');
 	}
 });
-
-
 
 export default HotelRoute;

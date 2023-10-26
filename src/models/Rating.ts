@@ -1,5 +1,5 @@
 import User from './User/User';
-import Hotel from './Hotel';
+import Hotel from './Hotel/Hotel';
 
 interface Rating {
 	id: number;
