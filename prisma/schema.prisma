@@ -11,16 +11,14 @@ model Admin {
   id       Int    @id @default(autoincrement())
   email    String @unique
   password String
-  hash     String
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
+  id        String    @id
   email     String    @unique
   firstName String
   lastName  String
   password  String
-  hash      String
   CPF       String
   bookings  Booking[]
   rates     Rating[]
@@ -60,7 +58,7 @@ model Booking {
   checkIn  DateTime
   checkOut DateTime
   roomId   Int
-  userId   Int
+  userId   String
   room     Room     @relation(fields: [roomId], references: [id])
   user     User     @relation(fields: [userId], references: [id])
 }
@@ -84,7 +82,7 @@ model Rating {
   hotelId Int
   content String?
   rate    Float
-  userId  Int
+  userId  String
   Hotel   Hotel   @relation(fields: [hotelId], references: [id])
   user    User    @relation(fields: [userId], references: [id])
 }
