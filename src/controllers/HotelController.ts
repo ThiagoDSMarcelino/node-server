@@ -32,15 +32,15 @@ class HotelController {
 			where: { id: hotel.id },
 		});
 
-		h.name = hotel.name;
-		h.city = hotel.city;
-		h.neighborhood = hotel.neighborhood;
-		h.complement = hotel.complement;
-		h.CEP = hotel.CEP;
-		h.country = hotel.country;
-		h.state = hotel.state;
-		h.phone = hotel.phone;
-		h.email = hotel.email;
+		h.name = hotel.name?? h.name;
+		h.city = hotel.city ?? h.city;
+		h.neighborhood = hotel.neighborhood ?? h.neighborhood;
+		h.complement = hotel.complement ?? h.complement;
+		h.CEP = hotel.CEP ?? h.CEP;
+		h.country = hotel.country ?? h.country;
+		h.state = hotel.state ?? h.state;
+		h.phone = hotel.phone ?? h.phone;
+		h.email = hotel.email ?? h.email;
 
 		const updatedHotel = await this.prisma.hotel.update({
 			where: {

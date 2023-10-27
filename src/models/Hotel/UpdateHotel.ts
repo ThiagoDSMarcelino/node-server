@@ -1,14 +1,14 @@
 interface HotelDTO {
 	id: number;
-	name: string;
-	city: string;
-	neighborhood: string;
-	complement: string;
-	CEP: string;
-	country: string;
-	state: string;
-	phone: string;
-	email: string;
+	name: string | null;
+	city: string | null;
+	neighborhood: string | null;
+	complement: string | null;
+	CEP: string | null;
+	country: string | null;
+	state: string | null;
+	phone: string | null;
+	email: string | null;
 }
 
 export default HotelDTO;
