@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import container from '../container';
 import IUserRepository from '../interfaces/IUserRepository';
-import authHandler from '../middleware/auth';
+import authHandler from '../middleware/authHandler';
 import CreateUser from '../models/User/CreateUser';
 
 const UserRoute = Router();
