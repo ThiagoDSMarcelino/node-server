@@ -1,8 +1,8 @@
+import { Router } from 'express';
+
+import container from '../container';
 import RoomController from '../controllers/RoomController';
 import SearchRoom from '../models/Room/SearchRoom';
-import container from '../container';
-import { Router } from 'express';
-import Room from '../models/Room/Room';
 
 const RoomRoute = Router();
 
@@ -10,6 +10,7 @@ RoomRoute.get('/', async (_, res) => {
 	try {
 		const service = container.resolve<RoomController>('roomController');
 		const data = await service.getAll();
+
 		return res.status(200).json(data);
 	} catch (error) {
 		console.log(error);
@@ -19,6 +20,7 @@ RoomRoute.get('/', async (_, res) => {
 
 RoomRoute.get('/', async (req, res) => {
 	const filters: SearchRoom = req.body;
+
 	try {
 		const service = container.resolve<RoomController>('roomController');
 		const data = await service.getFiltered(filters);

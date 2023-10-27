@@ -6,7 +6,7 @@ import IUserRepository from '../interfaces/IUserRepository';
 const UserRoute = Router();
 const controller = container.resolve<IUserRepository>('userController');
 
-UserRoute.post('/', async (req, res) => {
+UserRoute.post('/', async (req, res, next) => {
 	const user = req.body;
 
 	try {
@@ -14,23 +14,21 @@ UserRoute.post('/', async (req, res) => {
 
 		return res.status(201).json(data);
 	} catch (error) {
-		console.log(error);
-		return res.status(500).send('Failed to create user');
+		next(error);
 	}
 });
 
-UserRoute.get('/', async (_, res) => {
+UserRoute.get('/', async (_, res, next) => {
 	try {
 		const data = await controller.getAll();
 
 		return res.status(201).json(data);
 	} catch (error) {
-		console.log(error);
-		return res.status(500).send('Failed to find users');
+		next(error);
 	}
 });
 
-UserRoute.post('/', async (req, res) => {
+UserRoute.post('/', async (req, res, next) => {
 	const { token } = req.body;
 
 	try {
@@ -38,12 +36,11 @@ UserRoute.post('/', async (req, res) => {
 
 		return res.status(201).json(data);
 	} catch (error) {
-		console.log(error);
-		return res.status(500).send('Failed to find user');
+		next(error);
 	}
 });
 
-UserRoute.delete('/', async (req, res) => {
+UserRoute.delete('/', async (req, res, next) => {
 	const { token } = req.body;
 
 	try {
@@ -51,8 +48,7 @@ UserRoute.delete('/', async (req, res) => {
 
 		return res.status(201).json(data);
 	} catch (error) {
-		console.log(error);
-		return res.status(500).send('Failed to find user');
+		next(error);
 	}
 });
 

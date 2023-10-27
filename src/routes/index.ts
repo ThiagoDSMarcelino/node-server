@@ -1,8 +1,8 @@
 import express, { Router } from 'express';
 
-import UserRoute from './UserRoute';
 import HotelRoute from './HotelRoute';
 import RoomRoute from './RoomRoute';
+import UserRoute from './UserRoute';
 
 const router = Router();
 
