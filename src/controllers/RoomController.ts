@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+
 import Room from '../models/Room/Room';
 import SearchRoom from '../models/Room/SearchRoom';
 
@@ -39,11 +40,6 @@ export class RoomController {
 			where: { hotelId: hotelID },
 		});
 		return room;
-	}
-
-	async create(room: Room): Promise<Room> {
-		const r: Room = await this.prisma.room.create({ data: room });
-		return r;
 	}
 }
 

@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { PrismaClient } from '@prisma/client';
 
 import container from '../container';
+import ControllerError from '../errors/ControllerError';
 import ISecurityService from '../interfaces/ISecurityService';
 import CreateUser from '../models/User/CreateUser';
 import User from '../models/User/User';
@@ -19,6 +20,14 @@ class UserController {
 	}
 
 	public async create(data: CreateUser): Promise<String> {
+		const uniqueEmail = this.prisma.user.findUnique({
+			where: { email: data.email },
+		});
+
+		if (uniqueEmail !== null) {
+			throw ControllerError.invalidArgument('E-mail must be unique');
+		}
+
 		const hashedPassword = await this.securityService.encryptPassword(
 			data.password,
 		);
@@ -48,8 +57,7 @@ class UserController {
 		return res;
 	}
 
-	public async getById(token: string): Promise<UserDTO> {
-		const { id } = await this.securityService.checkJWT<UserDTO>(token);
+	public async getById(id: string): Promise<UserDTO> {
 		const user = await this.prisma.user.findFirstOrThrow({
 			where: { id: id },
 		});
