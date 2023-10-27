@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import ControllerError from '../errors/ControllerError';
+import { isServerError } from '../interfaces/IServerError';
 
 const errorHandler = (
 	err: Error,
@@ -8,7 +8,7 @@ const errorHandler = (
 	res: Response,
 	__: NextFunction,
 ) => {
-	if (err instanceof ControllerError) {
+	if (isServerError(err)) {
 		return res.status(err.code).send(err.content);
 	}
 

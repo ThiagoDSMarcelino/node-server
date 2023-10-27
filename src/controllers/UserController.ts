@@ -25,7 +25,7 @@ class UserController {
 		});
 
 		if (uniqueEmail !== null) {
-			throw ControllerError.invalidArgument('E-mail');
+			throw ControllerError.invalidArgument('E-mail must be unique');
 		}
 
 		const hashedPassword = await this.securityService.encryptPassword(

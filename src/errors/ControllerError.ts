@@ -1,4 +1,6 @@
-class ControllerError extends Error {
+import IServerError from '../interfaces/IServerError';
+
+class ControllerError extends Error implements IServerError {
 	public code: number;
 	public content: string;
 
@@ -9,8 +11,8 @@ class ControllerError extends Error {
 		this.content = message;
 	}
 
-	public static invalidArgument(arg: string): ControllerError {
-		const content = `Invalid argument: ${arg}`;
+	public static invalidArgument(message: string): ControllerError {
+		const content = `Invalid argument: ${message}`;
 		return new ControllerError(400, content);
 	}
 }

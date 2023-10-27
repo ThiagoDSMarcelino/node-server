@@ -2,12 +2,15 @@ import { Router } from 'express';
 
 import container from '../container';
 import IUserRepository from '../interfaces/IUserRepository';
+import authHandler from '../middleware/auth';
+import CreateUser from '../models/User/CreateUser';
 
 const UserRoute = Router();
 const controller = container.resolve<IUserRepository>('userController');
 
+// Create
 UserRoute.post('/', async (req, res, next) => {
-	const user = req.body;
+	const user: CreateUser = req.body;
 
 	try {
 		const data = await controller.create(user);
@@ -18,6 +21,7 @@ UserRoute.post('/', async (req, res, next) => {
 	}
 });
 
+// Get all
 UserRoute.get('/', async (_, res, next) => {
 	try {
 		const data = await controller.getAll();
@@ -28,7 +32,8 @@ UserRoute.get('/', async (_, res, next) => {
 	}
 });
 
-UserRoute.post('/', async (req, res, next) => {
+// Get by ID
+UserRoute.post('/id', async (req, res, next) => {
 	const { token } = req.body;
 
 	try {
@@ -40,7 +45,8 @@ UserRoute.post('/', async (req, res, next) => {
 	}
 });
 
-UserRoute.delete('/', async (req, res, next) => {
+// Delete
+UserRoute.delete('/', authHandler, async (req, res, next) => {
 	const { token } = req.body;
 
 	try {
