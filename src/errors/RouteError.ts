@@ -1,6 +1,6 @@
-import IServerError from '../interfaces/IServerError';
+import ServerError from './ServerError';
 
-class RouteError extends Error implements IServerError {
+class RouteError extends Error implements ServerError {
 	public code: number;
 	public content: string;
 

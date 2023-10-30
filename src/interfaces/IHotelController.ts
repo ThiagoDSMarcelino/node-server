@@ -1,4 +1,5 @@
 import { Hotel } from '@prisma/client';
+
 import UpdateHotel from '../models/Hotel/UpdateHotel';
 
 interface IHotelController {

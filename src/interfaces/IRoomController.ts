@@ -1,4 +1,5 @@
 import { Room } from '@prisma/client';
+
 import SearchRoom from '../models/Room/SearchRoom';
 
 interface IRoomController {

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { isServerError } from '../interfaces/IServerError';
+import { isServerError } from '../errors/ServerError';
 
 const errorHandler = (
 	err: Error,
