@@ -17,7 +17,8 @@ model User {
   id        String    @id
   email     String    @unique
   firstName String
-  lastName  String
+  lastName  String?
+  image     String
   password  String
   CPF       String
   bookings  Booking[]
@@ -41,16 +42,16 @@ model Hotel {
 }
 
 model Room {
-  id         Int           @id @default(autoincrement())
-  doubleBed  Int
+  id        Int           @id @default(autoincrement())
+  doubleBed Int
   singleBed Int
-  adults     Int
-  children   Int
-  daily      Decimal
-  hotelId    Int
-  bookings   Booking[]
-  features   FeatureRoom[]
-  hotel      Hotel         @relation(fields: [hotelId], references: [id])
+  adults    Int
+  children  Int
+  daily     Decimal
+  hotelId   Int
+  bookings  Booking[]
+  features  FeatureRoom[]
+  hotel     Hotel         @relation(fields: [hotelId], references: [id])
 }
 
 model Booking {

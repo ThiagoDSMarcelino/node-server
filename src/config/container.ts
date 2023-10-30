@@ -1,12 +1,13 @@
 import { asClass, asFunction, createContainer } from 'awilix';
 
-import HotelController from './controllers/HotelController';
-import RoomController from './controllers/RoomController';
-import UserController from './controllers/UserController';
+import HotelController from '../controllers/HotelController';
+import RoomController from '../controllers/RoomController';
+import UserController from '../controllers/UserController';
 import db from './db';
-import SecurityService from './services/SecurityService';
+import SecurityService from '../services/SecurityService';
+import IContainer from '../interfaces/IContainer';
 
-const container = createContainer();
+const container = createContainer<IContainer>();
 
 container.register({
 	// Database

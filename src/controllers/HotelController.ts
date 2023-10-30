@@ -1,7 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { Hotel, PrismaClient } from '@prisma/client';
 
-import Hotel from '../models/Hotel/Hotel';
-import HotelDTO from '../models/Hotel/UpdateHotel';
+import UpdateHotel from '../models/Hotel/UpdateHotel';
 
 class HotelController {
 	private prisma: PrismaClient;
@@ -27,26 +26,26 @@ class HotelController {
 		return createdHotel;
 	}
 
-	async update(hotel: HotelDTO): Promise<Hotel> {
-		const h: Hotel = await this.prisma.hotel.findFirstOrThrow({
-			where: { id: hotel.id },
+	async update(data: UpdateHotel): Promise<Hotel> {
+		const hotel: Hotel = await this.prisma.hotel.findFirstOrThrow({
+			where: { id: data.id },
 		});
 
-		h.name = hotel.name?? h.name;
-		h.city = hotel.city ?? h.city;
-		h.neighborhood = hotel.neighborhood ?? h.neighborhood;
-		h.complement = hotel.complement ?? h.complement;
-		h.CEP = hotel.CEP ?? h.CEP;
-		h.country = hotel.country ?? h.country;
-		h.state = hotel.state ?? h.state;
-		h.phone = hotel.phone ?? h.phone;
-		h.email = hotel.email ?? h.email;
+		hotel.name = data.name ?? hotel.name;
+		hotel.city = data.city ?? hotel.city;
+		hotel.neighborhood = data.neighborhood ?? hotel.neighborhood;
+		hotel.complement = data.complement ?? hotel.complement;
+		hotel.CEP = data.CEP ?? hotel.CEP;
+		hotel.country = data.country ?? hotel.country;
+		hotel.state = data.state ?? hotel.state;
+		hotel.phone = data.phone ?? hotel.phone;
+		hotel.email = data.email ?? hotel.email;
 
 		const updatedHotel = await this.prisma.hotel.update({
 			where: {
-				id: h.id,
+				id: hotel.id,
 			},
-			data: h,
+			data: hotel,
 		});
 
 		return updatedHotel;

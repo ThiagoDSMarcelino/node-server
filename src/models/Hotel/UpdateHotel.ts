@@ -1,14 +1,14 @@
-interface HotelDTO {
+interface UpdateHotel {
 	id: number;
-	name: string | null;
-	city: string | null;
-	neighborhood: string | null;
-	complement: string | null;
-	CEP: string | null;
-	country: string | null;
-	state: string | null;
-	phone: string | null;
-	email: string | null;
+	name?: string;
+	city?: string;
+	neighborhood?: string;
+	complement?: string;
+	CEP?: string;
+	country?: string;
+	state?: string;
+	phone?: string;
+	email?: string;
 }
 
-export default HotelDTO;
+export default UpdateHotel;

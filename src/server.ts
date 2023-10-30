@@ -4,7 +4,7 @@ import { scopePerRequest } from 'awilix-express';
 import cors from 'cors';
 import express from 'express';
 
-import container from './container';
+import container from './config/container';
 import errorHandler from './middleware/errorHandler';
 import routes from './routes';
 

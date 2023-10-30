@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import container from '../container';
+import container from '../config/container';
 import IUserRepository from '../interfaces/IUserRepository';
 import authHandler from '../middleware/authHandler';
 import CreateUser from '../models/User/CreateUser';

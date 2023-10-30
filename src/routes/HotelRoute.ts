@@ -1,13 +1,14 @@
 import { Router } from 'express';
 
-import container from '../container';
+import container from '../config/container';
 import HotelController from '../controllers/HotelController';
+import IHotelController from '../interfaces/IHotelController';
 
 const HotelRoute = Router();
 
 HotelRoute.get('/', async (_, res) => {
 	try {
-		const service = container.resolve<HotelController>('hotelController');
+		const service = container.resolve<IHotelController>('hotelController');
 		const data = await service.getAll();
 
 		return res.status(200).json(data);

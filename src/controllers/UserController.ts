@@ -1,12 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 
-import container from '../container';
+import container from '../config/container';
 import ControllerError from '../errors/ControllerError';
 import ISecurityService from '../interfaces/ISecurityService';
 import CreateUser from '../models/User/CreateUser';
-import User from '../models/User/User';
 import UserDTO from '../models/User/UserDTO';
 
 class UserController {
@@ -36,25 +35,26 @@ class UserController {
 			id: uuidv4(),
 			email: data.email,
 			firstName: data.firstName,
+			image: '', // TODO: Create profile picture logic
 			lastName: data.lastName,
 			password: hashedPassword,
 			CPF: data.CPF,
 		};
 
 		const user = await this.prisma.user.create({ data: newUser });
-		const dto = this.convertUser(user);
+		const DTO = this.convertUser(user);
 
-		const res = await this.securityService.genJWT(dto);
+		const token = await this.securityService.genJWT(DTO);
 
-		return res;
+		return token;
 	}
 
 	public async getAll(): Promise<UserDTO[]> {
 		const users = await this.prisma.user.findMany();
 
-		const res = users.map((user) => this.convertUser(user));
+		const DTOs = users.map((user) => this.convertUser(user));
 
-		return res;
+		return DTOs;
 	}
 
 	public async getById(id: string): Promise<UserDTO> {
@@ -62,7 +62,9 @@ class UserController {
 			where: { id: id },
 		});
 
-		return this.convertUser(user);
+		const DTO = this.convertUser(user);
+
+		return DTO;
 	}
 
 	public async delete(id: string): Promise<UserDTO> {
@@ -70,16 +72,18 @@ class UserController {
 			where: { id: id },
 		});
 
-		return this.convertUser(user);
+		const DTO = this.convertUser(user);
+
+		return DTO;
 	}
 
 	private convertUser(user: User): UserDTO {
-		const dto: UserDTO = {
+		const DTO: UserDTO = {
 			id: user.id,
 			name: `${user.firstName} ${user.lastName}`,
 		};
 
-		return dto;
+		return DTO;
 	}
 }
 

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import container from '../container';
+import container from '../config/container';
 import RoomController from '../controllers/RoomController';
 import SearchRoom from '../models/Room/SearchRoom';
 
