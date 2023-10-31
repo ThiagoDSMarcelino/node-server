@@ -46,24 +46,24 @@ model Hotel {
 
 model Room {
   id        Int           @id @default(autoincrement())
-  doubleBed Int
-  singleBed Int
+  double_bed Int
+  single_bed Int
   daily     Decimal
-  hotelId   Int
+  hotel_id   Int
   guests    Int
   bookings  Booking[]
   features  FeatureRoom[]
-  hotel     Hotel         @relation(fields: [hotelId], references: [id])
+  hotel     Hotel         @relation(fields: [hotel_id], references: [id])
 }
 
 model Booking {
   id       Int      @id @default(autoincrement())
-  checkIn  DateTime
-  checkOut DateTime
-  roomId   Int
-  userId   String
-  room     Room     @relation(fields: [roomId], references: [id])
-  user     User     @relation(fields: [userId], references: [id])
+  check_in  DateTime
+  check_out DateTime
+  room_id   Int
+  user_id   String
+  room     Room     @relation(fields: [room_id], references: [id])
+  user     User     @relation(fields: [user_id], references: [id])
 }
 
 model Feature {
@@ -74,28 +74,28 @@ model Feature {
 
 model FeatureRoom {
   id        Int     @id @default(autoincrement())
-  featureId Int
-  roomId    Int
-  feature   Feature @relation(fields: [featureId], references: [id])
-  room      Room    @relation(fields: [roomId], references: [id])
+  feature_id Int
+  room_id    Int
+  feature   Feature @relation(fields: [feature_id], references: [id])
+  room      Room    @relation(fields: [room_id], references: [id])
 }
 
 model Rating {
   id      Int     @id @default(autoincrement())
-  hotelId Int
+  hotel_id Int
   content String?
   rate    Float
-  userId  String
-  Hotel   Hotel   @relation(fields: [hotelId], references: [id])
-  user    User    @relation(fields: [userId], references: [id])
+  user_id  String
+  Hotel   Hotel   @relation(fields: [hotel_id], references: [id])
+  user    User    @relation(fields: [user_id], references: [id])
 }
 
 model CreditCard {
   id         Int    @id @default(autoincrement())
   number     String
   holder     String
-  userId     String
+  user_id     String
   code       String
   expiration String
-  user       User   @relation(fields: [userId], references: [id])
+  user       User   @relation(fields: [user_id], references: [id])
 }
