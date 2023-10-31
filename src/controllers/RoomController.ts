@@ -24,8 +24,8 @@ export class RoomController {
 	async getFiltered(filters: SearchRoom): Promise<Room[]> {
 		return await this.prisma.room.findMany({
 			where: {
-				doubleBed: filters.doubleBed,
-				singleBed: filters.singleBed,
+				double_bed: filters.doubleBed,
+				single_bed: filters.singleBed,
 				daily: {
 					lte: filters.maxDaily,
 					gte: filters.minDaily,
@@ -36,7 +36,7 @@ export class RoomController {
 
 	async getByHotel(hotelID: number): Promise<Room[]> {
 		const room = await this.prisma.room.findMany({
-			where: { hotelId: hotelID },
+			where: { hotel_id: hotelID },
 		});
 		return room;
 	}

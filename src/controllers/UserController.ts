@@ -40,7 +40,7 @@ class UserController {
 			birthday: data.birthday,
 			lastName: data.lastName,
 			password: hashedPassword,
-			CPF: data.CPF,
+			cpf: data.CPF,
 		};
 
 		const user = await this.prisma.user
