@@ -21,6 +21,7 @@ model User {
   image       String
   password    String
   CPF         String       @unique
+  birthday    DateTime
   bookings    Booking[]
   creditCards CreditCard[]
   rates       Rating[]
@@ -93,8 +94,8 @@ model CreditCard {
   id         Int    @id @default(autoincrement())
   number     String
   holder     String
-  Expiration String
-  Code       String
   userId     String
+  code       String
+  expiration String
   user       User   @relation(fields: [userId], references: [id])
 }
