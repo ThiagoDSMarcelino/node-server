@@ -20,7 +20,7 @@ model User {
   lastName    String?
   image       String
   password    String
-  CPF         String       @unique
+  cpf         String       @unique
   birthday    DateTime
   bookings    Booking[]
   creditCards CreditCard[]
@@ -33,12 +33,12 @@ model Hotel {
   city         String
   neighborhood String
   complement   String
-  CEP          String
+  cep          String
   country      String
   state        String
   phone        String
   email        String   @unique
-  CNPJ         String   @unique
+  cnpj         String   @unique
   street       String
   rates        Rating[]
   rooms        Room[]
