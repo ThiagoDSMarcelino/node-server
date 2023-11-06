@@ -1,4 +1,4 @@
-interface HotelDTO {
+type HotelDTO = {
 	name: string;
 	bestPrice: number;
 }

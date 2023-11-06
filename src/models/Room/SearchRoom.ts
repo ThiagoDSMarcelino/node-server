@@ -1,6 +1,6 @@
 import { Decimal } from '@prisma/client/runtime/library';
 
-interface SearchRoom {
+type SearchRoom = {
 	doubleBed: number;
 	singleBed: number;
 	maxDaily: Decimal;

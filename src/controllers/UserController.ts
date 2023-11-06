@@ -7,6 +7,7 @@ import IContainer from '../interfaces/IContainer';
 import ISecurityService from '../interfaces/ISecurityService';
 import CreateUser from '../models/User/CreateUser';
 import UserDTO from '../models/User/UserDTO';
+import UserLogin from '../models/User/UserLogin';
 
 class UserController {
 	private prisma: PrismaClient;
@@ -48,6 +49,26 @@ class UserController {
 			.then((user) => this.convertUser(user));
 
 		const token = await this.securityService.genJWT(user);
+
+		return token;
+	}
+
+	public async login(data: UserLogin): Promise<String> {
+		const user = await this.prisma.user.findFirstOrThrow({
+			where: { email: data.email },
+		});
+
+		if (
+			!(await this.securityService.comparePassword(
+				user.password,
+				data.password,
+			))
+		) {
+			throw new Error(); // TODO: Create custom error
+		}
+
+		const dto = this.convertUser(user);
+		const token = this.securityService.genJWT(dto);
 
 		return token;
 	}

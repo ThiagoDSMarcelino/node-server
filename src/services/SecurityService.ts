@@ -35,6 +35,13 @@ class SecurityService implements ISecurityService {
 
 		return hashedPassword;
 	}
+
+	async comparePassword(
+		user_password: string,
+		password: string,
+	): Promise<boolean> {
+		return await bcrypt.compare(password, user_password);
+	}
 }
 
 export default SecurityService;

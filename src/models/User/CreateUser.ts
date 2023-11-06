@@ -1,4 +1,4 @@
-interface CreateUser {
+type CreateUser = {
 	email: string;
 	firstName: string;
 	lastName: string;

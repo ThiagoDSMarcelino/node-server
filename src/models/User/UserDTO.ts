@@ -1,4 +1,4 @@
-interface UserDTO {
+type UserDTO = {
 	id: string;
 	name: string;
 }

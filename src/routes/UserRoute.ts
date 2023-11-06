@@ -4,6 +4,7 @@ import container from '../config/container';
 import IUserRepository from '../interfaces/IUserRepository';
 import authHandler from '../middleware/authHandler';
 import CreateUser from '../models/User/CreateUser';
+import UserLogin from '../models/User/UserLogin';
 
 const UserRoute = Router();
 const controller = container.resolve<IUserRepository>('userController');
@@ -16,6 +17,18 @@ UserRoute.post('/', async (req, res, next) => {
 		const data = await controller.create(user);
 
 		return res.status(201).json(data);
+	} catch (error) {
+		next(error);
+	}
+});
+
+UserRoute.post('/login', async (req, res, next) => {
+	const data: UserLogin = req.body;
+	
+	try {
+		const token = await controller.login(data);
+
+		return res.status(200).json(token);
 	} catch (error) {
 		next(error);
 	}

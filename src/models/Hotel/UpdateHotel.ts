@@ -1,4 +1,4 @@
-interface UpdateHotel {
+type UpdateHotel = {
 	id: number;
 	name?: string;
 	city?: string;

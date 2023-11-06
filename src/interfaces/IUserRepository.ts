@@ -3,6 +3,7 @@ import UserDTO from '../models/User/UserDTO';
 
 interface IUserRepository {
 	create(user: CreateUser): Promise<String>;
+	login(data: UserLogin): Promise<String>;
 	getAll(): Promise<UserDTO[]>;
 	getById(id: string): Promise<UserDTO>;
 	delete(id: string): Promise<UserDTO>;
