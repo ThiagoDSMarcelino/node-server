@@ -16,7 +16,7 @@ model Address {
   city         String
   state        String
   country      String
-  cep          String
+  postal_code  String
   airports     Airport[]
   credit_cards CreditCard[]
   hotels       Hotel[]
