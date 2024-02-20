@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Address {
-  id           Int          @id @default(autoincrement())
+  id           Int             @id @default(autoincrement())
   street       String
   number       String
   complement   String?
@@ -17,9 +17,9 @@ model Address {
   state        String
   country      String
   postal_code  String
-  airports     Airport[]
   credit_cards CreditCard[]
   hotels       Hotel[]
+  airports     TravelCompany[]
   users        User[]
 }
 
@@ -39,28 +39,29 @@ model User {
   address         Address?     @relation(fields: [address_id], references: [id])
 }
 
-model Airport {
+model TravelCompany {
   id         Int      @id @default(autoincrement())
   name       String   @unique
   address_id Int
-  address    Address  @relation(fields: [address_id], references: [id])
+  cnpj       String   @unique
   travels    Travel[]
+  address    Address  @relation(fields: [address_id], references: [id])
 }
 
 model Hotel {
-  id         Int           @id @default(autoincrement())
-  name       String        @unique
-  phone      String        @unique
-  email      String        @unique
-  cnpj       String        @unique
+  id         Int          @id @default(autoincrement())
+  name       String       @unique
+  phone      String       @unique
+  email      String       @unique
+  cnpj       String       @unique
   address_id Int
-  address    Address       @relation(fields: [address_id], references: [id])
-  images     HotelImages[]
+  address    Address      @relation(fields: [address_id], references: [id])
+  images     HotelImage[]
   packages   Package[]
   rooms      Room[]
 }
 
-model HotelImages {
+model HotelImage {
   id       Int    @id @default(autoincrement())
   url      String
   hotel_id Int
@@ -104,7 +105,7 @@ model Travel {
   transport_type_id Int
   arrivels          Ticket[]       @relation("arrival_travel")
   departures        Ticket[]       @relation("departure_travel")
-  airport           Airport        @relation(fields: [airport_id], references: [id])
+  airport           TravelCompany  @relation(fields: [airport_id], references: [id])
   transport_type    TransportTypes @relation(fields: [transport_type_id], references: [id])
 }
 
