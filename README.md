@@ -26,19 +26,3 @@ npx prisma generate # Generate PrismaClient
 * Get All [Get] http://localhost:8080/api/user/
 * Get by ID [Get] http://localhost:8080/api/user/id
 * Delete [Delete] http://localhost:8080/api/user/
-
-**Room**
-
-* Create [Post] http://localhost:8080/api/room/
-* Get All [Get] http://localhost:8080/api/room/
-* Filters [Get] http://localhost:8080/api/room/filters/
-* Get by ID [Post] http://localhost:8080/api/room/id
-* Get All by Hotel [Post] http://localhost:8080/api/room/getByHotel/
-
-**Hotel**
-
-* Create [Post] http://localhost:8080/api/hotel/
-* Get All [Get] http://localhost:8080/api/hotel/
-* Get by ID [Post] http://localhost:8080/api/hotel/id
-* Update [Put] http://localhost:8080/api/hotel/
-* Delete [Delete] http://localhost:8080/api/hotel/
