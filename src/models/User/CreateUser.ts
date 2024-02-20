@@ -1,10 +1,12 @@
 type CreateUser = {
 	email: string;
-	firstName: string;
-	lastName: string;
-	birthday: Date;
+	first_name: string;
+	last_name: string | null;
+	profile_picture: string | null;
 	password: string;
-	CPF: string;
-}
+	cpf: string;
+	birthday: Date;
+	is_admin: boolean | null;
+};
 
 export default CreateUser;

@@ -22,9 +22,10 @@ UserRoute.post('/', async (req, res, next) => {
 	}
 });
 
+// Login
 UserRoute.post('/login', async (req, res, next) => {
 	const data: UserLogin = req.body;
-	
+
 	try {
 		const token = await controller.login(data);
 
@@ -46,11 +47,11 @@ UserRoute.get('/', async (_, res, next) => {
 });
 
 // Get by ID
-UserRoute.post('/id', async (req, res, next) => {
-	const { token } = req.body;
+UserRoute.post('/id', authHandler, async (req, res, next) => {
+	const { id } = req.params;
 
 	try {
-		const data = await controller.getById(token);
+		const data = await controller.getById(id);
 
 		return res.status(201).json(data);
 	} catch (error) {
@@ -59,11 +60,11 @@ UserRoute.post('/id', async (req, res, next) => {
 });
 
 // Delete
-UserRoute.delete('/', authHandler, async (req, res, next) => {
-	const { token } = req.body;
+UserRoute.delete('/id', authHandler, async (req, res, next) => {
+	const { id } = req.params;
 
 	try {
-		const data = await controller.delete(token);
+		const data = await controller.delete(id);
 
 		return res.status(201).json(data);
 	} catch (error) {

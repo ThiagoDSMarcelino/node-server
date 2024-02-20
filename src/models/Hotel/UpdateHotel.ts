@@ -1,14 +1,15 @@
 type UpdateHotel = {
 	id: number;
-	name?: string;
-	city?: string;
-	neighborhood?: string;
-	complement?: string;
-	CEP?: string;
-	country?: string;
-	state?: string;
-	phone?: string;
-	email?: string;
-}
+	phone: string | null;
+	email: string | null;
+	street: string | null;
+	number: string | null;
+	complement: string | null;
+	neighborhood: string | null;
+	city: string | null;
+	state: string | null;
+	country: string | null;
+	cep: string | null;
+};
 
 export default UpdateHotel;

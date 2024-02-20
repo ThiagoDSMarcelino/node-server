@@ -18,14 +18,14 @@ class UserController {
 		this.securityService = securityService;
 	}
 
-	public async create(data: CreateUser): Promise<String> {
-		const isUniqueEmail = await this.prisma.user
+	public async create(data: CreateUser): Promise<string> {
+		const emailAlreadyUsed = await this.prisma.user
 			.findFirst({
 				where: { email: data.email },
 			})
 			.then((u) => u !== null);
 
-		if (isUniqueEmail) {
+		if (emailAlreadyUsed) {
 			throw ControllerError.invalidArgument('E-mail must be unique');
 		}
 
@@ -36,12 +36,14 @@ class UserController {
 		const newUser: User = {
 			id: uuidv4(),
 			email: data.email,
-			firstName: data.firstName,
-			image: '', // TODO: Create profile picture logic
-			birthday: data.birthday,
-			lastName: data.lastName,
+			first_name: data.first_name,
+			last_name: data.last_name,
+			profile_picture: data.profile_picture,
 			password: hashedPassword,
-			cpf: data.CPF,
+			cpf: data.cpf,
+			birthday: data.birthday,
+			is_admin: data.is_admin ?? false,
+			address_id: null,
 		};
 
 		const user = await this.prisma.user
@@ -53,18 +55,18 @@ class UserController {
 		return token;
 	}
 
-	public async login(data: UserLogin): Promise<String> {
+	public async login(data: UserLogin): Promise<string> {
 		const user = await this.prisma.user.findFirstOrThrow({
 			where: { email: data.email },
 		});
 
-		if (
-			!(await this.securityService.comparePassword(
-				user.password,
-				data.password,
-			))
-		) {
-			throw new Error(); // TODO: Create custom error
+		const passwordMatch = await this.securityService.comparePassword(
+			user.password,
+			data.password,
+		);
+
+		if (!passwordMatch) {
+			throw new Error('Wrong password'); // TODO: Create custom error
 		}
 
 		const dto = this.convertUser(user);
@@ -103,8 +105,12 @@ class UserController {
 
 	private convertUser(user: User): UserDTO {
 		const DTO: UserDTO = {
-			id: user.id,
-			name: `${user.firstName} ${user.lastName}`,
+			email: user.email,
+			profile_picture: user.profile_picture,
+			first_name: user.first_name,
+			last_name: user.last_name,
+			birthday: user.birthday,
+			is_admin: user.is_admin,
 		};
 
 		return DTO;

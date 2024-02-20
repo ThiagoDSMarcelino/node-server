@@ -1,6 +1,10 @@
 type UserDTO = {
-	id: string;
-	name: string;
-}
+	email: string;
+	profile_picture: string | null;
+	first_name: string;
+	last_name: string | null;
+	birthday: Date;
+	is_admin: boolean;
+};
 
 export default UserDTO;
