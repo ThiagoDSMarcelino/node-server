@@ -35,7 +35,7 @@ model User {
   is_admin        Boolean      @default(false)
   last_name       String?
   credit_cards    CreditCard[]
-  purchase        Purchase[]
+  purchases       Purchase[]
   address         Address?     @relation(fields: [address_id], references: [id])
 }
 
@@ -89,30 +89,30 @@ model CreditCard {
   user       User     @relation(fields: [user_id], references: [id])
 }
 
-model TransportTypes {
+model TransportType {
   id      Int      @id @default(autoincrement())
   name    String   @unique
   travels Travel[]
 }
 
 model Travel {
-  id                Int            @id @default(autoincrement())
+  id                Int           @id @default(autoincrement())
   number            String
   departure         DateTime
   arrival           DateTime
   Capacity          Int
-  airport_id        Int
   transport_type_id Int
-  arrivels          Ticket[]       @relation("arrival_travel")
-  departures        Ticket[]       @relation("departure_travel")
-  airport           TravelCompany  @relation(fields: [airport_id], references: [id])
-  transport_type    TransportTypes @relation(fields: [transport_type_id], references: [id])
+  travel_company_id Int
+  arrivels          Ticket[]      @relation("arrival_travel")
+  departures        Ticket[]      @relation("departure_travel")
+  transport_type    TransportType @relation(fields: [transport_type_id], references: [id])
+  travel_company    TravelCompany @relation(fields: [travel_company_id], references: [id])
 }
 
 model TravelClass {
-  id     Int      @id @default(autoincrement())
-  name   String   @unique
-  Ticket Ticket[]
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  tickets Ticket[]
 }
 
 model Ticket {
@@ -137,7 +137,7 @@ model Package {
   hotel                    Hotel                    @relation(fields: [hotel_id], references: [id])
   package_arrivel_ticket   PackageArrivelTicket[]
   package_departure_ticket PackageDepartureTicket[]
-  Purchase                 Purchase[]
+  purchase                 Purchase[]
 }
 
 model PackageDepartureTicket {
