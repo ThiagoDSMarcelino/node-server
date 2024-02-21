@@ -2,12 +2,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { PrismaClient, User } from '@prisma/client';
 
-import ControllerError from '../errors/ControllerError';
+import UserError from '../errors/UserError';
 import IContainer from '../interfaces/IContainer';
 import ISecurityService from '../interfaces/ISecurityService';
 import CreateUser from '../models/User/CreateUser';
 import UserDTO from '../models/User/UserDTO';
-import UserLogin from '../models/User/UserLogin';
+import DTOConverter from '../shared/DTOConverter';
 
 class UserController {
 	private prisma: PrismaClient;
@@ -26,7 +26,7 @@ class UserController {
 			.then((u) => u !== null);
 
 		if (emailAlreadyUsed) {
-			throw ControllerError.invalidArgument('E-mail must be unique');
+			throw UserError.emailAlreadyExists();
 		}
 
 		const hashedPassword = await this.securityService.encryptPassword(
@@ -48,29 +48,9 @@ class UserController {
 
 		const user = await this.prisma.user
 			.create({ data: newUser })
-			.then((user) => this.convertUser(user));
+			.then((user) => DTOConverter.convertUser(user));
 
 		const token = await this.securityService.genJWT(user);
-
-		return token;
-	}
-
-	public async login(data: UserLogin): Promise<string> {
-		const user = await this.prisma.user.findFirstOrThrow({
-			where: { email: data.email },
-		});
-
-		const passwordMatch = await this.securityService.comparePassword(
-			user.password,
-			data.password,
-		);
-
-		if (!passwordMatch) {
-			throw new Error('Wrong password'); // TODO: Create custom error
-		}
-
-		const dto = this.convertUser(user);
-		const token = this.securityService.genJWT(dto);
 
 		return token;
 	}
@@ -78,7 +58,9 @@ class UserController {
 	public async getAll(): Promise<UserDTO[]> {
 		const users = await this.prisma.user
 			.findMany()
-			.then((users) => users.map((user) => this.convertUser(user)));
+			.then((users) =>
+				users.map((user) => DTOConverter.convertUser(user)),
+			);
 
 		return users;
 	}
@@ -88,32 +70,26 @@ class UserController {
 			.findFirstOrThrow({
 				where: { id: id },
 			})
-			.then((user) => this.convertUser(user));
+			.catch(() => {
+				throw UserError.notFound();
+			})
+			.then((user) => DTOConverter.convertUser(user));
 
 		return user;
 	}
 
 	public async delete(id: string): Promise<UserDTO> {
-		const user = await this.prisma.user
-			.delete({
-				where: { id: id },
-			})
-			.then((user) => this.convertUser(user));
+		const user = await this.prisma.user.delete({
+			where: { id: id },
+		});
 
-		return user;
-	}
+		if (!user) {
+			throw UserError.notFound();
+		}
 
-	private convertUser(user: User): UserDTO {
-		const DTO: UserDTO = {
-			email: user.email,
-			profile_picture: user.profile_picture,
-			first_name: user.first_name,
-			last_name: user.last_name,
-			birthday: user.birthday,
-			is_admin: user.is_admin,
-		};
+		const dto = DTOConverter.convertUser(user);
 
-		return DTO;
+		return dto;
 	}
 }
 

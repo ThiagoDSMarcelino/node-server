@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { isServerError } from '../errors/ServerError';
+import ServerError, { ServerErrorResponse } from '../errors/ServerError';
 
 const errorHandler = (
 	err: Error,
@@ -8,8 +8,14 @@ const errorHandler = (
 	res: Response,
 	__: NextFunction,
 ) => {
-	if (isServerError(err)) {
-		return res.status(err.code).send(err.content);
+	if (ServerError.isServerError(err)) {
+		const { data } = err;
+		const body: ServerErrorResponse = {
+			title: data.title,
+			detail: data.detail,
+		};
+
+		return res.status(data.code).send(body);
 	}
 
 	return res.status(500).send('Internal Server Error');
