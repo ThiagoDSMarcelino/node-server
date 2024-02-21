@@ -1,20 +1,26 @@
-import { ServerErrorData } from './ServerError';
+import ServerError from './ServerError';
 
 class UserError {
-	public static notFound(): ServerErrorData {
-		return {
-			code: 404,
+	public static notFound(): ServerError {
+		const body = {
 			title: 'Not Found',
 			detail: 'User not found',
 		};
+
+		const error = new ServerError(404, body);
+
+		return error;
 	}
 
-	public static emailAlreadyExists(): ServerErrorData {
-		return {
-			code: 400,
-			title: 'Bad Request',
+	public static emailAlreadyExists(): ServerError {
+		const body = {
+			title: 'Conflict',
 			detail: 'Email already exists',
 		};
+
+		const error = new ServerError(400, body);
+
+		return error;
 	}
 }
 

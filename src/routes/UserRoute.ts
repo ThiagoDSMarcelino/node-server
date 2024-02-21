@@ -1,12 +1,12 @@
 import { Router } from 'express';
 
 import container from '../config/container';
-import IUserRepository from '../interfaces/IUserRepository';
+import IUserController from '../interfaces/IUserController';
 import authHandler from '../middleware/authHandler';
 import CreateUser from '../models/User/CreateUser';
 
 const UserRoute = Router();
-const controller = container.resolve<IUserRepository>('userController');
+const controller = container.resolve<IUserController>('userController');
 
 // Create
 UserRoute.post('/', async (req, res, next) => {
@@ -21,7 +21,7 @@ UserRoute.post('/', async (req, res, next) => {
 	}
 });
 
-// Get all
+// List
 UserRoute.get('/', async (_, res, next) => {
 	try {
 		const data = await controller.getAll();
@@ -32,8 +32,8 @@ UserRoute.get('/', async (_, res, next) => {
 	}
 });
 
-// Get by ID
-UserRoute.post('/id', authHandler, async (req, res, next) => {
+// Get by id
+UserRoute.get('/:id', async (req, res, next) => {
 	const { id } = req.params;
 
 	try {

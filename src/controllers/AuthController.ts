@@ -4,7 +4,7 @@ import AuthError from '../errors/AuthError';
 import UserError from '../errors/UserError';
 import IContainer from '../interfaces/IContainer';
 import ISecurityService from '../interfaces/ISecurityService';
-import UserLogin from '../models/User/UserLogin';
+import Login from '../models/Auth/Login';
 import DTOConverter from '../shared/DTOConverter';
 
 class AuthController {
@@ -16,7 +16,7 @@ class AuthController {
 		this.securityService = securityService;
 	}
 
-	public async login(data: UserLogin): Promise<string> {
+	public async login(data: Login): Promise<string> {
 		const user = await this.prisma.user
 			.findFirstOrThrow({
 				where: { email: data.email },

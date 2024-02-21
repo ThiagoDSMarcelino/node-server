@@ -1,12 +1,15 @@
-import { ServerErrorData } from './ServerError';
+import ServerError from './ServerError';
 
 class RouteError {
-	public static unauthorized(): ServerErrorData {
-		return {
-			code: 401,
+	public static unauthorized(): ServerError {
+		const body = {
 			title: 'Unauthorized',
-			detail: 'You are not authorized to access this resource',
+			detail: 'Unauthorized',
 		};
+
+		const error = new ServerError(401, body);
+
+		return error;
 	}
 }
 

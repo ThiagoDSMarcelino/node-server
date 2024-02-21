@@ -1,15 +1,15 @@
 import { Router } from 'express';
 
 import container from '../config/container';
-import IAuthRepository from '../interfaces/IAuthRepository';
-import UserLogin from '../models/User/UserLogin';
+import IAuthController from '../interfaces/IAuthController';
+import Login from '../models/Auth/Login';
 
 const AuthRoute = Router();
-const controller = container.resolve<IAuthRepository>('authRepository');
+const controller = container.resolve<IAuthController>('authController');
 
 // Login
-AuthRoute.post('/login', async (req, res, next) => {
-	const data: UserLogin = req.body;
+AuthRoute.post('/', async (req, res, next) => {
+	const data: Login = req.body;
 
 	try {
 		const token = await controller.login(data);

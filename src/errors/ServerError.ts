@@ -1,25 +1,32 @@
-class ServerError extends Error {
-	data: ServerErrorData;
+type ServerErrorBody = {
+	title: string;
+	detail: string;
+};
 
-	constructor(data: ServerErrorData) {
-		super(data.detail);
-		this.data = data;
+class ServerError extends Error {
+	code: number;
+	body: ServerErrorBody;
+
+	constructor(code: number, body: ServerErrorBody) {
+		super();
+		this.code = code;
+		this.body = body;
 	}
 
-	public static isServerError(error: Error): error is ServerError {
-		return error instanceof Error;
+	public static isServerError(obj: Error): obj is ServerError {
+		return obj instanceof ServerError;
+	}
+
+	public static internalServerError(): ServerError {
+		const body = {
+			title: 'Internal Server Error',
+			detail: 'Internal Server Error',
+		};
+
+		const error = new ServerError(500, body);
+
+		return error;
 	}
 }
-
-export type ServerErrorData = {
-	code: number;
-	title: string;
-	detail: string;
-};
-
-export type ServerErrorResponse = {
-	title: string;
-	detail: string;
-};
 
 export default ServerError;
