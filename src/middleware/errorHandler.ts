@@ -9,6 +9,7 @@ const errorHandler = (
 	__: NextFunction,
 ) => {
 	if (!(error instanceof ServerError)) {
+		console.error(error);
 		error = ServerError.internalServerError();
 	}
 

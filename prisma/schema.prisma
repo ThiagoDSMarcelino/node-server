@@ -8,19 +8,21 @@ datasource db {
 }
 
 model Address {
-  id           Int             @id @default(autoincrement())
-  street       String
-  number       String
-  complement   String?
-  neighborhood String
-  city         String
-  state        String
-  country      String
-  postal_code  String
-  credit_cards CreditCard[]
-  hotels       Hotel[]
-  airports     TravelCompany[]
-  users        User[]
+  id                Int             @id @default(autoincrement())
+  street            String
+  number            String
+  complement        String?
+  neighborhood      String
+  city              String
+  state             String
+  country           String
+  postal_code       String
+  credit_cards      CreditCard[]
+  hotels            Hotel[]
+  arrival_tickets   Ticket[]        @relation("arrival_address")
+  departure_tickets Ticket[]        @relation("departure_address")
+  companies         TravelCompany[]
+  users             User[]
 }
 
 model User {
@@ -114,14 +116,18 @@ model TravelClass {
 }
 
 model Ticket {
-  id         Int         @id @default(autoincrement())
-  price      Decimal
-  class_id   Int
-  travel_id  Int
-  arrivel    Package[]   @relation("arrivel_ticket")
-  derparture Package[]   @relation("departure_ticket")
-  class      TravelClass @relation(fields: [class_id], references: [id])
-  travel     Travel      @relation(fields: [travel_id], references: [id])
+  id                    Int         @id @default(autoincrement())
+  price                 Decimal
+  class_id              Int
+  travel_id             Int
+  arrival_address_id    Int
+  derparture_address_id Int
+  arrivels              Package[]   @relation("arrivel_ticket")
+  derpartures           Package[]   @relation("departure_ticket")
+  arrival_address       Address     @relation("arrival_address", fields: [arrival_address_id], references: [id])
+  class                 TravelClass @relation(fields: [class_id], references: [id])
+  derparture_address    Address     @relation("departure_address", fields: [derparture_address_id], references: [id])
+  travel                Travel      @relation(fields: [travel_id], references: [id])
 }
 
 model Package {

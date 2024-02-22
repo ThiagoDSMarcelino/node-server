@@ -38,13 +38,13 @@ class UserService implements IUserService {
 		const newUser: User = {
 			id: uuidv4(),
 			email: data.email,
-			first_name: data.first_name,
-			last_name: data.last_name,
-			profile_picture: data.profile_picture,
+			first_name: data.firstName,
+			last_name: data.lastName,
+			profile_picture: data.profilePicture,
 			password: hashedPassword,
 			cpf: data.cpf,
-			birthday: data.birthday,
-			is_admin: data.is_admin ?? false,
+			birthday: new Date(data.birthday),
+			is_admin: data.isAdmin ?? false,
 			address_id: null,
 		};
 
