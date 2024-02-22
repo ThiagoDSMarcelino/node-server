@@ -2,12 +2,13 @@ import { PrismaClient } from '@prisma/client';
 
 import AuthError from '../errors/AuthError';
 import UserError from '../errors/UserError';
+import IAuthService from '../interfaces/IAuthService';
 import IContainer from '../interfaces/IContainer';
 import ISecurityService from '../interfaces/ISecurityService';
 import Login from '../models/Auth/Login';
 import DTOConverter from '../shared/DTOConverter';
 
-class AuthController {
+class AuthService implements IAuthService {
 	private prisma: PrismaClient;
 	private securityService: ISecurityService;
 
@@ -41,4 +42,4 @@ class AuthController {
 	}
 }
 
-export default AuthController;
+export default AuthService;

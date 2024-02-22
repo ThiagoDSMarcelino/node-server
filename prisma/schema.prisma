@@ -49,23 +49,22 @@ model TravelCompany {
 }
 
 model Hotel {
-  id         Int          @id @default(autoincrement())
-  name       String       @unique
-  phone      String       @unique
-  email      String       @unique
-  cnpj       String       @unique
+  id         Int       @id @default(autoincrement())
+  name       String    @unique
+  phone      String    @unique
+  email      String    @unique
+  cnpj       String    @unique
   address_id Int
-  address    Address      @relation(fields: [address_id], references: [id])
-  images     HotelImage[]
+  address    Address   @relation(fields: [address_id], references: [id])
   packages   Package[]
   rooms      Room[]
 }
 
-model HotelImage {
-  id       Int    @id @default(autoincrement())
-  url      String
-  hotel_id Int
-  hotel    Hotel  @relation(fields: [hotel_id], references: [id])
+model PackageImage {
+  id         Int     @id @default(autoincrement())
+  url        String
+  package_id Int
+  package    Package @relation(fields: [package_id], references: [id])
 }
 
 model Room {
@@ -100,11 +99,10 @@ model Travel {
   number            String
   departure         DateTime
   arrival           DateTime
-  Capacity          Int
   transport_type_id Int
   travel_company_id Int
-  arrivels          Ticket[]      @relation("arrival_travel")
-  departures        Ticket[]      @relation("departure_travel")
+  capacity          Int
+  tickets           Ticket[]
   transport_type    TransportType @relation(fields: [transport_type_id], references: [id])
   travel_company    TravelCompany @relation(fields: [travel_company_id], references: [id])
 }
@@ -116,44 +114,29 @@ model TravelClass {
 }
 
 model Ticket {
-  id                       Int                      @id @default(autoincrement())
-  price                    Decimal
-  departure_travel_id      Int
-  arrival_travel_id        Int
-  travel_class_id          Int
-  package_arrivel_ticket   PackageArrivelTicket[]
-  package_departure_ticket PackageDepartureTicket[]
-  arrival_travel           Travel                   @relation("arrival_travel", fields: [arrival_travel_id], references: [id])
-  departure_travel         Travel                   @relation("departure_travel", fields: [departure_travel_id], references: [id])
-  travel_class             TravelClass              @relation(fields: [travel_class_id], references: [id])
+  id         Int         @id @default(autoincrement())
+  price      Decimal
+  class_id   Int
+  travel_id  Int
+  arrivel    Package[]   @relation("arrivel_ticket")
+  derparture Package[]   @relation("departure_ticket")
+  class      TravelClass @relation(fields: [class_id], references: [id])
+  travel     Travel      @relation(fields: [travel_id], references: [id])
 }
 
 model Package {
-  id                       Int                      @id @default(autoincrement())
-  name                     String                   @unique
-  description              String
-  hotel_id                 Int
-  discount                 Decimal
-  hotel                    Hotel                    @relation(fields: [hotel_id], references: [id])
-  package_arrivel_ticket   PackageArrivelTicket[]
-  package_departure_ticket PackageDepartureTicket[]
-  purchase                 Purchase[]
-}
-
-model PackageDepartureTicket {
-  id         Int     @id @default(autoincrement())
-  package_id Int
-  ticket_id  Int
-  package    Package @relation(fields: [package_id], references: [id])
-  ticket     Ticket  @relation(fields: [ticket_id], references: [id])
-}
-
-model PackageArrivelTicket {
-  id         Int     @id @default(autoincrement())
-  package_id Int
-  ticket_id  Int
-  package    Package @relation(fields: [package_id], references: [id])
-  ticket     Ticket  @relation(fields: [ticket_id], references: [id])
+  id                  Int            @id @default(autoincrement())
+  name                String         @unique
+  description         String
+  hotel_id            Int
+  discount            Decimal
+  arrivel_ticket_id   Int
+  departure_ticket_id Int
+  arrivel_ticket      Ticket         @relation("arrivel_ticket", fields: [arrivel_ticket_id], references: [id])
+  departure_ticket    Ticket         @relation("departure_ticket", fields: [departure_ticket_id], references: [id])
+  hotel               Hotel          @relation(fields: [hotel_id], references: [id])
+  images              PackageImage[]
+  purchase            Purchase[]
 }
 
 model PurchaseStatus {

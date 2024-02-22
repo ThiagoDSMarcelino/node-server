@@ -2,14 +2,16 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { PrismaClient, User } from '@prisma/client';
 
+import ServerError from '../errors/ServerError';
 import UserError from '../errors/UserError';
 import IContainer from '../interfaces/IContainer';
 import ISecurityService from '../interfaces/ISecurityService';
+import IUserService from '../interfaces/IUserService';
 import CreateUser from '../models/User/CreateUser';
 import UserDTO from '../models/User/UserDTO';
 import DTOConverter from '../shared/DTOConverter';
 
-class UserController {
+class UserService implements IUserService {
 	private prisma: PrismaClient;
 	private securityService: ISecurityService;
 
@@ -55,16 +57,6 @@ class UserController {
 		return token;
 	}
 
-	public async getAll(): Promise<UserDTO[]> {
-		const users = await this.prisma.user
-			.findMany()
-			.then((users) =>
-				users.map((user) => DTOConverter.convertUser(user)),
-			);
-
-		return users;
-	}
-
 	public async getById(id: string): Promise<UserDTO> {
 		const user = await this.prisma.user
 			.findFirstOrThrow({
@@ -79,18 +71,19 @@ class UserController {
 	}
 
 	public async delete(id: string): Promise<UserDTO> {
-		const user = await this.prisma.user.delete({
-			where: { id: id },
-		});
+		throw ServerError.notImplemented();
+		// // const user = await this.prisma.user.delete({
+		// // 	where: { id: id },
+		// // });
 
-		if (!user) {
-			throw UserError.notFound();
-		}
+		// // if (!user) {
+		// // 	throw UserError.notFound();
+		// // }
 
-		const dto = DTOConverter.convertUser(user);
+		// // const dto = DTOConverter.convertUser(user);
 
-		return dto;
+		// // return dto;
 	}
 }
 
-export default UserController;
+export default UserService;

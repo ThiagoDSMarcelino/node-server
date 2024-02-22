@@ -1,7 +1,7 @@
 import Login from '../models/Auth/Login';
 
-interface IAuthController {
+interface IAuthService {
 	login(user: Login): Promise<string>;
 }
 
-export default IAuthController;
+export default IAuthService;

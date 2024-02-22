@@ -19,12 +19,12 @@
     "@types/uuid": "^9.0.6",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
-    "prisma": "^5.10.1",
+    "prisma": "^5.10.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@prisma/client": "^5.10.1",
+    "@prisma/client": "^5.10.2",
     "awilix": "^9.0.0",
     "awilix-express": "^8.0.0",
     "bcrypt": "^5.1.1",

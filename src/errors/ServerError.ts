@@ -27,6 +27,17 @@ class ServerError extends Error {
 
 		return error;
 	}
+
+	public static notImplemented(): ServerError {
+		const body = {
+			title: 'Not Implemented',
+			detail: 'Not Implemented',
+		};
+
+		const error = new ServerError(501, body);
+
+		return error;
+	}
 }
 
 export default ServerError;

@@ -1,9 +1,9 @@
 import { asClass, asFunction, createContainer } from 'awilix';
 
-import AuthController from '../controllers/AuthController';
-import UserController from '../controllers/UserController';
 import IContainer from '../interfaces/IContainer';
+import AuthService from '../services/AuthService';
 import SecurityService from '../services/SecurityService';
+import UserService from '../services/UserService';
 import db from './db';
 
 const container = createContainer<IContainer>();
@@ -13,8 +13,8 @@ container.register({
 	prisma: asFunction(db).singleton(),
 
 	// Controllers
-	userController: asClass(UserController).scoped(),
-	authController: asClass(AuthController).scoped(),
+	userService: asClass(UserService).scoped(),
+	authService: asClass(AuthService).scoped(),
 
 	// Services
 	securityService: asClass(SecurityService).scoped(),

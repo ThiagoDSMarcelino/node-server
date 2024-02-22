@@ -1,13 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 
-import IAuthController from './IAuthController';
+import IAuthService from './IAuthService';
 import ISecurityService from './ISecurityService';
-import IUserController from './IUserController';
+import IUserService from './IUserService';
 
 interface IContainer {
 	prisma: PrismaClient;
-	userController: IUserController;
-	authController: IAuthController;
+	userService: IUserService;
+	authService: IAuthService;
 	securityService: ISecurityService;
 }
 

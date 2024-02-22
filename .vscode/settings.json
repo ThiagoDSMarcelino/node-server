@@ -5,5 +5,8 @@
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.codeActionsOnSave": {
 		"source.removeUnusedImports": "explicit"
+	},
+	"[prisma]": {
+		"editor.defaultFormatter": "Prisma.prisma"
 	}
 }
