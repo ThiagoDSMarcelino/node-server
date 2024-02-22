@@ -22,7 +22,5 @@ npx prisma generate # Generate PrismaClient
 **User**
 
 * Create [Post] http://localhost:8080/api/user/
-* Login [Post] http://localhost:8080/api/user/login/
-* Get All [Get] http://localhost:8080/api/user/
-* Get by ID [Get] http://localhost:8080/api/user/id
-* Delete [Delete] http://localhost:8080/api/user/
+* Get by ID [Get] http://localhost:8080/api/user/{{id}}
+* Delete [Delete] http://localhost:8080/api/user/{{id}} //Needs authorization
