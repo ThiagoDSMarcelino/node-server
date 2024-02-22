@@ -1,26 +1,32 @@
-import ServerError from './ServerError';
+import { ServerErrorData } from './ServerError';
 
 class UserError {
-	public static notFound(): ServerError {
+	public static notFound(): ServerErrorData {
 		const body = {
 			title: 'Not Found',
 			detail: 'User not found',
 		};
 
-		const error = new ServerError(404, body);
+		const data = {
+			code: 404,
+			body: body,
+		};
 
-		return error;
+		return data;
 	}
 
-	public static emailAlreadyExists(): ServerError {
+	public static emailAlreadyExists(): ServerErrorData {
 		const body = {
 			title: 'Conflict',
 			detail: 'Email already exists',
 		};
 
-		const error = new ServerError(400, body);
+		const data = {
+			code: 409,
+			body: body,
+		};
 
-		return error;
+		return data;
 	}
 }
 

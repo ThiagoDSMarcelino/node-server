@@ -1,12 +1,11 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 
 import AuthError from '../errors/AuthError';
+import ServerError from '../errors/ServerError';
 import UserError from '../errors/UserError';
 import IAuthService from '../interfaces/IAuthService';
 import IContainer from '../interfaces/IContainer';
 import ISecurityService from '../interfaces/ISecurityService';
-import Login from '../models/Auth/Login';
-import { user2DTO } from '../shared/converters';
 
 class AuthService implements IAuthService {
 	private prisma: PrismaClient;
@@ -17,28 +16,25 @@ class AuthService implements IAuthService {
 		this.securityService = securityService;
 	}
 
-	public async login(data: Login): Promise<string> {
+	public async login(email: string, password: string): Promise<User> {
 		const user = await this.prisma.user
 			.findFirstOrThrow({
-				where: { email: data.email },
+				where: { email },
 			})
 			.catch(() => {
-				throw UserError.notFound();
+				throw new ServerError(UserError.notFound());
 			});
 
 		const passwordMatch = await this.securityService.comparePassword(
 			user.password,
-			data.password,
+			password,
 		);
 
 		if (!passwordMatch) {
-			throw AuthError.passwordMismatch();
+			throw new ServerError(AuthError.passwordMismatch());
 		}
 
-		const dto = user2DTO(user);
-		const token = this.securityService.genJWT(dto);
-
-		return token;
+		return user;
 	}
 }
 

@@ -11,7 +11,7 @@ class SecurityService implements ISecurityService {
 		const secret = process.env.SECRET;
 
 		if (secret === null || !secret)
-			throw new Error('Secret key not set in ENV file');
+			throw new Error('Secret key not set in ENV file'); // TODO: Change to custom error
 
 		this.secret = secret;
 	}

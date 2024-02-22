@@ -1,13 +1,24 @@
 import { NextFunction, Request, Response } from 'express';
 
+import container from '../config/container';
 import RouteError from '../errors/RouteError';
+import ServerError from '../errors/ServerError';
+import IAuthService from '../interfaces/IAuthService';
 
-const authHandler = (req: Request, _: Response, next: NextFunction) => {
-	const { token } = req.headers;
+const service = container.resolve<IAuthService>('authService');
 
-	if (!token) {
-		throw RouteError.unauthorized();
+const authHandler = async (req: Request, res: Response, next: NextFunction) => {
+	const authorizationHeader = req.headers.authorization;
+
+	if (!authorizationHeader) {
+		throw new ServerError(RouteError.unauthorized());
 	}
+
+	const base64Credentials = authorizationHeader.split(' ')[1]; // Get the part after "Basic "
+	const decodedCredentials = atob(base64Credentials);
+	const [username, password] = decodedCredentials.split(':');
+	const user = await service.login(username, password);
+	res.locals.user = user;
 
 	next();
 };

@@ -12,7 +12,7 @@ const errorHandler = (
 ) => {
 	if (!(error instanceof ServerError)) {
 		logger.error(error2Log(error));
-		error = ServerError.internalServerError();
+		error = new ServerError(ServerError.internalServerError());
 	}
 
 	const serverError = error as ServerError;

@@ -6,14 +6,13 @@ import authHandler from '../middleware/authHandler';
 import CreateUser from '../models/User/CreateUser';
 
 const UserRoute = Router();
-const controller = container.resolve<IUserService>('userService');
+const service = container.resolve<IUserService>('userService');
 
 // Create
 UserRoute.post('/', async (req, res, next) => {
 	const user: CreateUser = req.body;
-
 	try {
-		const data = await controller.create(user);
+		const data = await service.create(user);
 
 		return res.status(201).json(data);
 	} catch (error) {
@@ -26,7 +25,7 @@ UserRoute.get('/:id', async (req, res, next) => {
 	const { id } = req.params;
 
 	try {
-		const data = await controller.getById(id);
+		const data = await service.find(id);
 
 		return res.status(201).json(data);
 	} catch (error) {
@@ -35,11 +34,11 @@ UserRoute.get('/:id', async (req, res, next) => {
 });
 
 // Delete
-UserRoute.delete('/id', authHandler, async (req, res, next) => {
+UserRoute.delete('/:id', authHandler, async (req, res, next) => {
 	const { id } = req.params;
 
 	try {
-		const data = await controller.delete(id);
+		const data = await service.delete(id, res.locals.user);
 
 		return res.status(201).json(data);
 	} catch (error) {

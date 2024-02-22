@@ -1,15 +1,18 @@
-import ServerError from './ServerError';
+import { ServerErrorData } from './ServerError';
 
 class AuthError {
-	public static passwordMismatch(): ServerError {
+	public static passwordMismatch(): ServerErrorData {
 		const body = {
 			title: 'Unauthorized',
 			detail: 'Password does not match',
 		};
 
-		const error = new ServerError(401, body);
+		const data = {
+			code: 401,
+			body: body,
+		};
 
-		return error;
+		return data;
 	}
 }
 

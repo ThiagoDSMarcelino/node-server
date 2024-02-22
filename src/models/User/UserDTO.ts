@@ -1,4 +1,5 @@
 type UserDTO = {
+	id: string;
 	email: string;
 	profile_picture: string | null;
 	first_name: string;

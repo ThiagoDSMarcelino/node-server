@@ -1,7 +1,7 @@
-import Login from '../models/Auth/Login';
+import { User } from '@prisma/client';
 
 interface IAuthService {
-	login(user: Login): Promise<string>;
+	login(email: string, password: string): Promise<User>;
 }
 
 export default IAuthService;

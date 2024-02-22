@@ -4,6 +4,7 @@ import UserDTO from '../models/User/UserDTO';
 
 export const user2DTO = (user: User): UserDTO => {
 	const DTO: UserDTO = {
+		id: user.id,
 		email: user.email,
 		profile_picture: user.profile_picture,
 		first_name: user.first_name,

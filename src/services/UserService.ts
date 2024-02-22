@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { PrismaClient, User } from '@prisma/client';
 
+import RouteError from '../errors/RouteError';
 import ServerError from '../errors/ServerError';
 import UserError from '../errors/UserError';
 import IContainer from '../interfaces/IContainer';
@@ -28,7 +29,7 @@ class UserService implements IUserService {
 			.then((u) => u !== null);
 
 		if (emailAlreadyUsed) {
-			throw UserError.emailAlreadyExists();
+			throw new ServerError(UserError.emailAlreadyExists());
 		}
 
 		const hashedPassword = await this.securityService.encryptPassword(
@@ -57,32 +58,34 @@ class UserService implements IUserService {
 		return token;
 	}
 
-	public async getById(id: string): Promise<UserDTO> {
+	public async find(id: string): Promise<UserDTO> {
 		const user = await this.prisma.user
 			.findFirstOrThrow({
 				where: { id: id },
 			})
 			.catch(() => {
-				throw UserError.notFound();
+				throw new ServerError(UserError.notFound());
 			})
 			.then((user) => user2DTO(user));
 
 		return user;
 	}
 
-	public async delete(id: string): Promise<UserDTO> {
-		throw ServerError.notImplemented();
-		// // const user = await this.prisma.user.delete({
-		// // 	where: { id: id },
-		// // });
+	public async delete(id: string, loggedUser: User): Promise<UserDTO> {
+		if (id !== loggedUser.id) {
+			throw new ServerError(RouteError.unauthorized());
+		}
 
-		// // if (!user) {
-		// // 	throw UserError.notFound();
-		// // }
+		const deleted = await this.prisma.user
+			.delete({
+				where: { id: id },
+			})
+			.catch(() => {
+				throw new ServerError(UserError.notFound());
+			})
+			.then((user) => user2DTO(user));
 
-		// // const dto = DTOConverter.convertUser(user);
-
-		// // return dto;
+		return deleted;
 	}
 }
 
