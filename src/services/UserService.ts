@@ -9,7 +9,7 @@ import ISecurityService from '../interfaces/ISecurityService';
 import IUserService from '../interfaces/IUserService';
 import CreateUser from '../models/User/CreateUser';
 import UserDTO from '../models/User/UserDTO';
-import DTOConverter from '../shared/DTOConverter';
+import { user2DTO } from '../shared/converters';
 
 class UserService implements IUserService {
 	private prisma: PrismaClient;
@@ -50,7 +50,7 @@ class UserService implements IUserService {
 
 		const user = await this.prisma.user
 			.create({ data: newUser })
-			.then((user) => DTOConverter.convertUser(user));
+			.then((user) => user2DTO(user));
 
 		const token = await this.securityService.genJWT(user);
 
@@ -65,7 +65,7 @@ class UserService implements IUserService {
 			.catch(() => {
 				throw UserError.notFound();
 			})
-			.then((user) => DTOConverter.convertUser(user));
+			.then((user) => user2DTO(user));
 
 		return user;
 	}

@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 
 import ServerError from '../errors/ServerError';
+import { error2Log } from '../shared/converters';
+import logger from '../shared/logger';
 
 const errorHandler = (
 	error: Error,
@@ -9,7 +11,7 @@ const errorHandler = (
 	__: NextFunction,
 ) => {
 	if (!(error instanceof ServerError)) {
-		console.error(error);
+		logger.error(error2Log(error));
 		error = ServerError.internalServerError();
 	}
 
