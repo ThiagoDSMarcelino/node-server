@@ -51,14 +51,13 @@ model TravelCompany {
 }
 
 model Hotel {
-  id         Int       @id @default(autoincrement())
-  name       String    @unique
-  phone      String    @unique
-  email      String    @unique
-  cnpj       String    @unique
+  id         Int     @id @default(autoincrement())
+  name       String  @unique
+  phone      String  @unique
+  email      String  @unique
+  cnpj       String  @unique
   address_id Int
-  address    Address   @relation(fields: [address_id], references: [id])
-  packages   Package[]
+  address    Address @relation(fields: [address_id], references: [id])
   rooms      Room[]
 }
 
@@ -70,12 +69,13 @@ model PackageImage {
 }
 
 model Room {
-  id         Int     @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   double_bed Int
   single_bed Int
   daily      Decimal
   hotel_id   Int
-  hotel      Hotel   @relation(fields: [hotel_id], references: [id])
+  hotel      Hotel     @relation(fields: [hotel_id], references: [id])
+  Package    Package[]
 }
 
 model CreditCard {
@@ -134,13 +134,13 @@ model Package {
   id                  Int            @id @default(autoincrement())
   name                String         @unique
   description         String
-  hotel_id            Int
+  room_id             Int
   discount            Decimal
   arrivel_ticket_id   Int
   departure_ticket_id Int
   arrivel_ticket      Ticket         @relation("arrivel_ticket", fields: [arrivel_ticket_id], references: [id])
   departure_ticket    Ticket         @relation("departure_ticket", fields: [departure_ticket_id], references: [id])
-  hotel               Hotel          @relation(fields: [hotel_id], references: [id])
+  room                Room           @relation(fields: [room_id], references: [id])
   images              PackageImage[]
   purchase            Purchase[]
 }
