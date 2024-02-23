@@ -1,6 +1,6 @@
 import { ServerErrorData } from './ServerError';
 
-class UserError {
+class EntityError {
 	public static notFound(): ServerErrorData {
 		const body = {
 			title: 'Not Found',
@@ -15,10 +15,10 @@ class UserError {
 		return data;
 	}
 
-	public static emailAlreadyExists(): ServerErrorData {
+	static propertyAlreadyExists(prop: string): ServerErrorData {
 		const body = {
 			title: 'Conflict',
-			detail: 'Email already exists',
+			detail: `The ${prop} property is already being used`,
 		};
 
 		const data = {
@@ -30,4 +30,4 @@ class UserError {
 	}
 }
 
-export default UserError;
+export default EntityError;

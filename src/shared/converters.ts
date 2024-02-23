@@ -3,7 +3,7 @@ import { User } from '@prisma/client';
 import UserDTO from '../models/User/UserDTO';
 
 export const user2DTO = (user: User): UserDTO => {
-	const DTO: UserDTO = {
+	const dto: UserDTO = {
 		id: user.id,
 		email: user.email,
 		profilePicture: user.profilePicture,
@@ -13,7 +13,7 @@ export const user2DTO = (user: User): UserDTO => {
 		isAdmin: user.isAdmin,
 	};
 
-	return DTO;
+	return dto;
 };
 
 export const error2Log = (error: Error): string => {

@@ -2,7 +2,7 @@ import { PrismaClient, User } from '@prisma/client';
 
 import AuthError from '../errors/AuthError';
 import ServerError from '../errors/ServerError';
-import UserError from '../errors/UserError';
+import EntityError from '../errors/UserError';
 import IAuthService from '../interfaces/IAuthService';
 import IContainer from '../interfaces/IContainer';
 import ISecurityService from '../interfaces/ISecurityService';
@@ -22,7 +22,7 @@ class AuthService implements IAuthService {
 				where: { email },
 			})
 			.catch(() => {
-				throw new ServerError(UserError.notFound());
+				throw new ServerError(EntityError.notFound());
 			});
 
 		const passwordMatch = await this.securityService.comparePassword(

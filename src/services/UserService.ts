@@ -4,7 +4,7 @@ import { PrismaClient, User } from '@prisma/client';
 
 import RouteError from '../errors/RouteError';
 import ServerError from '../errors/ServerError';
-import UserError from '../errors/UserError';
+import EntityError from '../errors/UserError';
 import IContainer from '../interfaces/IContainer';
 import ISecurityService from '../interfaces/ISecurityService';
 import IUserService from '../interfaces/IUserService';
@@ -21,7 +21,7 @@ class UserService implements IUserService {
 		this.securityService = securityService;
 	}
 
-	public async create(data: CreateUser): Promise<string> {
+	public async create(data: CreateUser): Promise<UserDTO> {
 		const emailAlreadyUsed = await this.prisma.user
 			.findFirst({
 				where: { email: data.email },
@@ -29,7 +29,17 @@ class UserService implements IUserService {
 			.then((u) => u !== null);
 
 		if (emailAlreadyUsed) {
-			throw new ServerError(UserError.emailAlreadyExists());
+			throw new ServerError(EntityError.propertyAlreadyExists('Email'));
+		}
+
+		const cpfAlreadyUsed = await this.prisma.user
+			.findFirst({
+				where: { cpf: data.cpf },
+			})
+			.then((u) => u !== null);
+
+		if (cpfAlreadyUsed) {
+			throw new ServerError(EntityError.propertyAlreadyExists('CPF'));
 		}
 
 		const hashedPassword = await this.securityService.encryptPassword(
@@ -52,9 +62,7 @@ class UserService implements IUserService {
 			.create({ data: newUser })
 			.then((user) => user2DTO(user));
 
-		const token = await this.securityService.genJWT(user);
-
-		return token;
+		return user;
 	}
 
 	public async find(id: string): Promise<UserDTO> {
@@ -63,7 +71,7 @@ class UserService implements IUserService {
 				where: { id: id },
 			})
 			.catch(() => {
-				throw new ServerError(UserError.notFound());
+				throw new ServerError(EntityError.notFound());
 			})
 			.then((user) => user2DTO(user));
 
@@ -80,7 +88,7 @@ class UserService implements IUserService {
 				where: { id: id },
 			})
 			.catch(() => {
-				throw new ServerError(UserError.notFound());
+				throw new ServerError(EntityError.notFound());
 			})
 			.then((user) => user2DTO(user));
 
