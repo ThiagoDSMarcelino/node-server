@@ -30,7 +30,7 @@ class ServerError extends Error {
 
 		const data = {
 			code: 500,
-			body: body,
+			body,
 		};
 
 		return data;
@@ -44,7 +44,21 @@ class ServerError extends Error {
 
 		const data = {
 			code: 501,
-			body: body,
+			body,
+		};
+
+		return data;
+	}
+
+	public static envNotSet(): ServerErrorData {
+		const body = {
+			title: 'Environment Variable Not Set',
+			detail: 'One or more required environment variables are not set.',
+		};
+
+		const data = {
+			code: 500,
+			body,
 		};
 
 		return data;

@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+import ServerError from '../errors/ServerError';
 import ISecurityService from '../interfaces/ISecurityService';
 
 class SecurityService implements ISecurityService {
@@ -10,8 +11,9 @@ class SecurityService implements ISecurityService {
 	constructor() {
 		const secret = process.env.SECRET;
 
-		if (secret === null || !secret)
-			throw new Error('Secret key not set in ENV file'); // TODO: Change to custom error
+		if (secret === null || !secret) {
+			throw new ServerError(ServerError.envNotSet());
+		}
 
 		this.secret = secret;
 	}
@@ -27,7 +29,9 @@ class SecurityService implements ISecurityService {
 	}
 
 	async checkJWT<T>(data: string): Promise<T> {
-		return jwt.verify(data, this.secret) as T;
+		const obj = jwt.verify(data, this.secret) as T;
+
+		return obj;
 	}
 
 	async encryptPassword(password: string): Promise<string> {
