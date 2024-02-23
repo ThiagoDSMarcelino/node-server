@@ -39,14 +39,13 @@ class UserService implements IUserService {
 		const newUser: User = {
 			id: uuidv4(),
 			email: data.email,
-			first_name: data.firstName,
-			last_name: data.lastName,
-			profile_picture: data.profilePicture,
+			firstName: data.firstName,
+			lastName: data.lastName,
+			profilePicture: data.profilePicture,
 			password: hashedPassword,
 			cpf: data.cpf,
 			birthday: new Date(data.birthday),
-			is_admin: data.isAdmin ?? false,
-			address_id: null,
+			isAdmin: data.isAdmin ?? false,
 		};
 
 		const user = await this.prisma.user

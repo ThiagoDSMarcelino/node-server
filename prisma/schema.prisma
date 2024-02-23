@@ -7,75 +7,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Address {
-  id                Int             @id @default(autoincrement())
-  street            String
-  number            String
-  complement        String?
-  neighborhood      String
-  city              String
-  state             String
-  country           String
-  postal_code       String
-  credit_cards      CreditCard[]
-  hotels            Hotel[]
-  arrival_tickets   Ticket[]        @relation("arrival_address")
-  departure_tickets Ticket[]        @relation("departure_address")
-  companies         TravelCompany[]
-  users             User[]
-}
-
 model User {
-  id              String       @id
-  email           String       @unique
-  profile_picture String?
-  password        String
-  cpf             String       @unique
-  birthday        DateTime
-  address_id      Int?
-  first_name      String
-  is_admin        Boolean      @default(false)
-  last_name       String?
-  credit_cards    CreditCard[]
-  purchases       Purchase[]
-  address         Address?     @relation(fields: [address_id], references: [id])
-}
-
-model TravelCompany {
-  id         Int      @id @default(autoincrement())
-  name       String   @unique
-  address_id Int
-  cnpj       String   @unique
-  travels    Travel[]
-  address    Address  @relation(fields: [address_id], references: [id])
+  id             String       @id
+  email          String       @unique
+  profilePicture String?      @map("profile_picture")
+  password       String
+  cpf            String       @unique
+  birthday       DateTime
+  firstName      String       @map("first_name")
+  isAdmin        Boolean      @default(false) @map("is_admin")
+  lastName       String?      @map("last_name")
+  cards          CreditCard[]
+  purchases      Purchase[]
 }
 
 model Hotel {
-  id         Int     @id @default(autoincrement())
-  name       String  @unique
-  phone      String  @unique
-  email      String  @unique
-  cnpj       String  @unique
-  address_id Int
-  address    Address @relation(fields: [address_id], references: [id])
-  rooms      Room[]
-}
-
-model PackageImage {
-  id         Int     @id @default(autoincrement())
-  url        String
-  package_id Int
-  package    Package @relation(fields: [package_id], references: [id])
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  phone String @unique
+  email String @unique
+  cnpj  String @unique
+  rooms Room[]
 }
 
 model Room {
-  id         Int       @id @default(autoincrement())
-  double_bed Int
-  single_bed Int
-  daily      Decimal
-  hotel_id   Int
-  hotel      Hotel     @relation(fields: [hotel_id], references: [id])
-  Package    Package[]
+  id        Int       @id @default(autoincrement())
+  doubleBed Int       @map("double_bed")
+  singleBed Int       @map("single_bed")
+  daily     Decimal
+  hotelId   Int       @map("hotel_id")
+  packages  Package[]
+  hotel     Hotel     @relation(fields: [hotelId], references: [id])
 }
 
 model CreditCard {
@@ -84,81 +46,79 @@ model CreditCard {
   holder     String
   code       String
   expiration DateTime
-  user_id    String
-  address_id Int
-  address    Address  @relation(fields: [address_id], references: [id])
-  user       User     @relation(fields: [user_id], references: [id])
+  userId     String   @map("user_id")
+  user       User     @relation(fields: [userId], references: [id])
 }
 
 model TransportType {
   id      Int      @id @default(autoincrement())
   name    String   @unique
-  travels Travel[]
-}
-
-model Travel {
-  id                Int           @id @default(autoincrement())
-  number            String
-  departure         DateTime
-  arrival           DateTime
-  transport_type_id Int
-  travel_company_id Int
-  capacity          Int
-  tickets           Ticket[]
-  transport_type    TransportType @relation(fields: [transport_type_id], references: [id])
-  travel_company    TravelCompany @relation(fields: [travel_company_id], references: [id])
-}
-
-model TravelClass {
-  id      Int      @id @default(autoincrement())
-  name    String   @unique
   tickets Ticket[]
 }
 
+model Class {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  tickets Ticket[]
+
+  @@map("TravelClass")
+}
+
 model Ticket {
-  id                    Int         @id @default(autoincrement())
-  price                 Decimal
-  class_id              Int
-  travel_id             Int
-  arrival_address_id    Int
-  derparture_address_id Int
-  arrivels              Package[]   @relation("arrivel_ticket")
-  derpartures           Package[]   @relation("departure_ticket")
-  arrival_address       Address     @relation("arrival_address", fields: [arrival_address_id], references: [id])
-  class                 TravelClass @relation(fields: [class_id], references: [id])
-  derparture_address    Address     @relation("departure_address", fields: [derparture_address_id], references: [id])
-  travel                Travel      @relation(fields: [travel_id], references: [id])
+  id                Int           @id @default(autoincrement())
+  price             Decimal
+  classId           Int           @map("class_id")
+  arrivalAddress    String        @map("arrival_address")
+  arrivalDateTime   DateTime      @map("arrival_date_time")
+  departureDateTime DateTime      @map("departure_date_time")
+  derpartureAddress String        @map("derparture_address")
+  transportTypeId   Int           @map("transport_type_id")
+  arrivels          Package[]     @relation("arrivel_ticket")
+  derpartures       Package[]     @relation("departure_ticket")
+  class             Class         @relation(fields: [classId], references: [id])
+  transportType     TransportType @relation(fields: [transportTypeId], references: [id])
 }
 
 model Package {
-  id                  Int            @id @default(autoincrement())
-  name                String         @unique
-  description         String
-  room_id             Int
-  discount            Decimal
-  arrivel_ticket_id   Int
-  departure_ticket_id Int
-  arrivel_ticket      Ticket         @relation("arrivel_ticket", fields: [arrivel_ticket_id], references: [id])
-  departure_ticket    Ticket         @relation("departure_ticket", fields: [departure_ticket_id], references: [id])
-  room                Room           @relation(fields: [room_id], references: [id])
-  images              PackageImage[]
-  purchase            Purchase[]
+  id                Int        @id @default(autoincrement())
+  name              String     @unique
+  description       String
+  discount          Decimal
+  arrivelTicketId   Int        @map("arrivel_ticket_id")
+  departureTicketId Int        @map("departure_ticket_id")
+  roomId            Int        @map("room_id")
+  arrivelTicket     Ticket     @relation("arrivel_ticket", fields: [arrivelTicketId], references: [id])
+  departureTicket   Ticket     @relation("departure_ticket", fields: [departureTicketId], references: [id])
+  room              Room       @relation(fields: [roomId], references: [id])
+  images            Image[]
+  purchases         Purchase[]
 }
 
-model PurchaseStatus {
-  id       Int        @id @default(autoincrement())
-  name     String     @unique
-  purchase Purchase[]
+model Image {
+  id        Int     @id @default(autoincrement())
+  url       String
+  packageId Int     @map("package_id")
+  package   Package @relation(fields: [packageId], references: [id])
+
+  @@map("PackageImage")
+}
+
+model Status {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  purchases Purchase[]
+
+  @@map("PurchaseStatus")
 }
 
 model Purchase {
-  id         Int            @id @default(autoincrement())
-  user_id    String
-  package_id Int
-  value      Decimal
-  date       DateTime
-  status_id  Int
-  package    Package        @relation(fields: [package_id], references: [id])
-  status     PurchaseStatus @relation(fields: [status_id], references: [id])
-  user       User           @relation(fields: [user_id], references: [id])
+  id        Int      @id @default(autoincrement())
+  userId    String   @map("user_id")
+  packageId Int      @map("package_id")
+  value     Decimal
+  date      DateTime
+  statusId  Int      @map("status_id")
+  package   Package  @relation(fields: [packageId], references: [id])
+  status    Status   @relation(fields: [statusId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
