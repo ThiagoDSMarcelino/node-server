@@ -2,15 +2,15 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { PrismaClient, User } from '@prisma/client';
 
-import RouteError from '../errors/RouteError';
-import ServerError from '../errors/ServerError';
-import EntityError from '../errors/UserError';
-import IContainer from '../interfaces/IContainer';
-import ISecurityService from '../interfaces/ISecurityService';
-import IUserService from '../interfaces/IUserService';
+import RouteError from '../../config/errors/RouteError';
+import ServerError from '../../config/errors/ServerError';
+import EntityError from '../../config/errors/UserError';
+import ISecurityService from '../../interfaces/Base/ISecurityService';
+import IUserService from '../../interfaces/Base/IUserService';
+import IContainer from '../../interfaces/IContainer';
+import { user2DTO } from '../../shared/converters';
 import CreateUser from '../models/User/CreateUser';
 import UserDTO from '../models/User/UserDTO';
-import { user2DTO } from '../shared/converters';
 
 class UserService implements IUserService {
 	private prisma: PrismaClient;

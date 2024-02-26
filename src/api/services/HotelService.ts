@@ -1,7 +1,7 @@
 import { Hotel, PrismaClient } from '@prisma/client';
 
-import IContainer from '../interfaces/IContainer';
-import IHotelService from '../interfaces/IHotelService';
+import IHotelService from '../../interfaces/Base/IHotelService';
+import IContainer from '../../interfaces/IContainer';
 
 class HotelService implements IHotelService {
 	private prisma: PrismaClient;

@@ -1,11 +1,11 @@
 import { PrismaClient, User } from '@prisma/client';
 
-import AuthError from '../errors/AuthError';
-import ServerError from '../errors/ServerError';
-import EntityError from '../errors/UserError';
-import IAuthService from '../interfaces/IAuthService';
-import IContainer from '../interfaces/IContainer';
-import ISecurityService from '../interfaces/ISecurityService';
+import AuthError from '../../config/errors/AuthError';
+import ServerError from '../../config/errors/ServerError';
+import EntityError from '../../config/errors/UserError';
+import IAuthService from '../../interfaces/Base/IAuthService';
+import ISecurityService from '../../interfaces/Base/ISecurityService';
+import IContainer from '../../interfaces/IContainer';
 
 class AuthService implements IAuthService {
 	private prisma: PrismaClient;

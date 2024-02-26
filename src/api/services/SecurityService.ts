@@ -1,8 +1,8 @@
 import * as bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import ServerError from '../errors/ServerError';
-import ISecurityService from '../interfaces/ISecurityService';
+import ServerError from '../../config/errors/ServerError';
+import ISecurityService from '../../interfaces/Base/ISecurityService';
 
 class SecurityService implements ISecurityService {
 	private saltRounds: number = 10;

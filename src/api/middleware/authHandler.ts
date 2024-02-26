@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 
-import container from '../config/container';
-import RouteError from '../errors/RouteError';
-import ServerError from '../errors/ServerError';
-import IAuthService from '../interfaces/IAuthService';
+import container from '../../config/container';
+import RouteError from '../../config/errors/RouteError';
+import ServerError from '../../config/errors/ServerError';
+import IAuthService from '../../interfaces/Base/IAuthService';
 
 const service = container.resolve<IAuthService>('authService');
 
@@ -13,7 +13,7 @@ const authHandler = async (req: Request, res: Response, next: NextFunction) => {
 	if (!authorization) {
 		throw new ServerError(RouteError.unauthorized());
 	}
-	
+
 	const base64Credentials = authorization.split(' ')[1]; // Get the part after "Basic "
 	const decodedCredentials = atob(base64Credentials);
 	const [username, password] = decodedCredentials.split(':');

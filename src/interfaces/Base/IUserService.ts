@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
 
-import CreateUser from '../models/User/CreateUser';
-import UserDTO from '../models/User/UserDTO';
+import CreateUser from '../../api/models/User/CreateUser';
+import UserDTO from '../../api/models/User/UserDTO';
 
 interface IUserService {
 	create(user: CreateUser): Promise<UserDTO>;

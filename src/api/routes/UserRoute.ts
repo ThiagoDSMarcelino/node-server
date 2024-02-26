@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import container from '../config/container';
-import IUserService from '../interfaces/IUserService';
+import container from '../../config/container';
+import IUserService from '../../interfaces/Base/IUserService';
 import authHandler from '../middleware/authHandler';
 import CreateUser from '../models/User/CreateUser';
 

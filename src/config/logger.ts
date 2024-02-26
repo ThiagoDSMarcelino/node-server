@@ -1,6 +1,6 @@
 import winston from 'winston';
 
-import { logPath } from '../config/paths';
+import { logPath } from './constants/paths';
 
 const logLevels = {
 	error: 0,
