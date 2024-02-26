@@ -2,13 +2,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { PrismaClient, User } from '@prisma/client';
 
-import RouteError from '../../config/errors/RouteError';
-import ServerError from '../../config/errors/ServerError';
-import EntityError from '../../config/errors/UserError';
 import ISecurityService from '../../interfaces/Base/ISecurityService';
 import IUserService from '../../interfaces/Base/IUserService';
 import IContainer from '../../interfaces/IContainer';
 import { user2DTO } from '../../shared/converters';
+import EntityError from '../errors/EntityError';
+import ServerError from '../errors/ServerError';
 import CreateUser from '../models/User/CreateUser';
 import UserDTO from '../models/User/UserDTO';
 
@@ -80,7 +79,7 @@ class UserService implements IUserService {
 
 	public async delete(id: string, loggedUser: User): Promise<UserDTO> {
 		if (id !== loggedUser.id) {
-			throw new ServerError(RouteError.unauthorized());
+			throw new ServerError(EntityError.notAllowed());
 		}
 
 		const deleted = await this.prisma.user

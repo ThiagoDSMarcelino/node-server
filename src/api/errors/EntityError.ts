@@ -28,6 +28,20 @@ class EntityError {
 
 		return data;
 	}
+
+	public static notAllowed(): ServerErrorData {
+		const body = {
+			title: 'Not Allowed',
+			detail: 'You are not allowed to perform this action',
+		};
+
+		const data = {
+			code: 403,
+			body: body,
+		};
+
+		return data;
+	}
 }
 
 export default EntityError;

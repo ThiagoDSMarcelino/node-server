@@ -4,16 +4,16 @@ import container from '../../config/container';
 import IUserService from '../../interfaces/Base/IUserService';
 import authHandler from '../middleware/authHandler';
 import CreateUser from '../models/User/CreateUser';
+import UserDTO from '../models/User/UserDTO';
 
 const UserRoute = Router();
 const service = container.resolve<IUserService>('userService');
 
 // Create
 UserRoute.post('/', async (req, res, next) => {
-	const user: CreateUser = req.body;
 	try {
-		const data = await service.create(user);
-
+		const user: CreateUser = req.body;
+		const data: UserDTO = await service.create(user);
 		return res.status(201).json(data);
 	} catch (error) {
 		next(error);
@@ -22,11 +22,9 @@ UserRoute.post('/', async (req, res, next) => {
 
 // Get by id
 UserRoute.get('/:id', async (req, res, next) => {
-	const { id } = req.params;
-
 	try {
-		const data = await service.find(id);
-
+		const { id } = req.params;
+		const data: UserDTO = await service.find(id);
 		return res.status(201).json(data);
 	} catch (error) {
 		next(error);
@@ -35,11 +33,9 @@ UserRoute.get('/:id', async (req, res, next) => {
 
 // Delete
 UserRoute.delete('/:id', authHandler, async (req, res, next) => {
-	const { id } = req.params;
-
 	try {
-		const data = await service.delete(id, res.locals.user);
-
+		const { id } = req.params;
+		const data: UserDTO = await service.delete(id, res.locals.user);
 		return res.status(201).json(data);
 	} catch (error) {
 		next(error);
