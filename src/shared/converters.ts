@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
 
-import UserDTO from '../api/models/User/UserDTO';
+import UserDTO from '../api/models/UserDTO';
 
 export const user2DTO = (user: User): UserDTO => {
 	const dto: UserDTO = {

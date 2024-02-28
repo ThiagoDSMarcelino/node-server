@@ -1,10 +1,11 @@
 import { Router } from 'express';
 
+import { User } from '@prisma/client';
+
 import container from '../../config/container';
 import IUserService from '../../interfaces/Base/IUserService';
 import authHandler from '../middleware/authHandler';
-import CreateUser from '../models/User/CreateUser';
-import UserDTO from '../models/User/UserDTO';
+import UserDTO from '../models/UserDTO';
 
 const UserRoute = Router();
 const service = container.resolve<IUserService>('userService');
@@ -12,7 +13,7 @@ const service = container.resolve<IUserService>('userService');
 // Create
 UserRoute.post('/', async (req, res, next) => {
 	try {
-		const user: CreateUser = req.body;
+		const user: User = req.body;
 		const data: UserDTO = await service.create(user);
 		return res.status(201).json(data);
 	} catch (error) {

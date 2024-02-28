@@ -1,10 +1,9 @@
 import { Hotel, User } from '@prisma/client';
 
-import CreateHotel from '../../api/models/Hotel/CreateHotel';
-
 interface IHotelService {
-	create(data: CreateHotel, user: User): Promise<Hotel>;
+	create(data: Hotel, user: User): Promise<Hotel>;
 	list(): Promise<Hotel[]>;
+	delete(id: number, loggedUser: User): Promise<Hotel>;
 }
 
 export default IHotelService;

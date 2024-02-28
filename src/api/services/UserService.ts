@@ -8,8 +8,7 @@ import IContainer from '../../interfaces/IContainer';
 import { user2DTO } from '../../shared/converters';
 import EntityError from '../errors/EntityError';
 import ServerError from '../errors/ServerError';
-import CreateUser from '../models/User/CreateUser';
-import UserDTO from '../models/User/UserDTO';
+import UserDTO from '../models/UserDTO';
 
 class UserService implements IUserService {
 	private prisma: PrismaClient;
@@ -20,7 +19,7 @@ class UserService implements IUserService {
 		this.securityService = securityService;
 	}
 
-	public async create(data: CreateUser): Promise<UserDTO> {
+	public async create(data: User): Promise<UserDTO> {
 		const emailAlreadyUsed = await this.prisma.user
 			.findFirst({
 				where: { email: data.email },

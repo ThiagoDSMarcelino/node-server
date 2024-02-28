@@ -47,6 +47,22 @@ class HotelService implements IHotelService {
 		const hotels = await this.prisma.hotel.findMany();
 		return hotels;
 	}
+
+	public async delete(id: number, loggedUser: User): Promise<Hotel> {
+		if (!loggedUser.isAdmin) {
+			throw new ServerError(AuthError.adminOnly());
+		}
+
+		const deleted = await this.prisma.hotel
+			.delete({
+				where: { id: id },
+			})
+			.catch(() => {
+				throw new ServerError(EntityError.notFound());
+			});
+
+		return deleted;
+	}
 }
 
 export default HotelService;

@@ -36,6 +36,7 @@ model Room {
   singleBed Int       @map("single_bed")
   daily     Decimal
   hotelId   Int       @map("hotel_id")
+  name      String    @unique
   packages  Package[]
   hotel     Hotel     @relation(fields: [hotelId], references: [id])
 }
