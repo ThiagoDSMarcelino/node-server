@@ -5,10 +5,8 @@ import { PrismaClient, User } from '@prisma/client';
 import ISecurityService from '../../interfaces/Base/ISecurityService';
 import IUserService from '../../interfaces/Base/IUserService';
 import IContainer from '../../interfaces/IContainer';
-import { user2DTO } from '../../shared/converters';
 import EntityError from '../errors/EntityError';
 import ServerError from '../errors/ServerError';
-import UserDTO from '../models/UserDTO';
 
 class UserService implements IUserService {
 	private prisma: PrismaClient;
@@ -19,7 +17,7 @@ class UserService implements IUserService {
 		this.securityService = securityService;
 	}
 
-	public async create(data: User): Promise<UserDTO> {
+	public async create(data: User): Promise<User> {
 		const emailAlreadyUsed = await this.prisma.user
 			.findFirst({
 				where: { email: data.email },
@@ -56,27 +54,24 @@ class UserService implements IUserService {
 			isAdmin: data.isAdmin ?? false,
 		};
 
-		const user = await this.prisma.user
-			.create({ data: newUser })
-			.then((user) => user2DTO(user));
+		const user = await this.prisma.user.create({ data: newUser });
 
 		return user;
 	}
 
-	public async find(id: string): Promise<UserDTO> {
+	public async find(id: string): Promise<User> {
 		const user = await this.prisma.user
 			.findFirstOrThrow({
 				where: { id: id },
 			})
 			.catch(() => {
 				throw new ServerError(EntityError.notFound());
-			})
-			.then((user) => user2DTO(user));
+			});
 
 		return user;
 	}
 
-	public async delete(id: string, loggedUser: User): Promise<UserDTO> {
+	public async delete(id: string, loggedUser: User): Promise<User> {
 		if (id !== loggedUser.id) {
 			throw new ServerError(EntityError.notAllowed());
 		}
@@ -87,8 +82,7 @@ class UserService implements IUserService {
 			})
 			.catch(() => {
 				throw new ServerError(EntityError.notFound());
-			})
-			.then((user) => user2DTO(user));
+			});
 
 		return deleted;
 	}

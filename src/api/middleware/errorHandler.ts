@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 import logger from '../../config/logger';
-import { error2Log } from '../../shared/converters';
+import error2Log from '../errors/Error2Log';
 import ServerError from '../errors/ServerError';
 
 const errorHandler = (

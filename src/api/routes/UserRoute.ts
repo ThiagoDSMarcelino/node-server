@@ -1,11 +1,8 @@
 import { Router } from 'express';
 
-import { User } from '@prisma/client';
-
 import container from '../../config/container';
 import IUserService from '../../interfaces/Base/IUserService';
 import authHandler from '../middleware/authHandler';
-import UserDTO from '../models/UserDTO';
 
 const UserRoute = Router();
 const service = container.resolve<IUserService>('userService');
@@ -13,9 +10,9 @@ const service = container.resolve<IUserService>('userService');
 // Create
 UserRoute.post('/', async (req, res, next) => {
 	try {
-		const user: User = req.body;
-		const data: UserDTO = await service.create(user);
-		return res.status(201).json(data);
+		const { data } = req.body;
+		const created = await service.create(data);
+		return res.status(201).json(created);
 	} catch (error) {
 		next(error);
 	}
@@ -25,8 +22,8 @@ UserRoute.post('/', async (req, res, next) => {
 UserRoute.get('/:id', async (req, res, next) => {
 	try {
 		const { id } = req.params;
-		const data: UserDTO = await service.find(id);
-		return res.status(201).json(data);
+		const user = await service.find(id);
+		return res.status(201).json(user);
 	} catch (error) {
 		next(error);
 	}
@@ -36,8 +33,8 @@ UserRoute.get('/:id', async (req, res, next) => {
 UserRoute.delete('/:id', authHandler, async (req, res, next) => {
 	try {
 		const { id } = req.params;
-		const data: UserDTO = await service.delete(id, res.locals.user);
-		return res.status(201).json(data);
+		const deleted = await service.delete(id, res.locals.user);
+		return res.status(201).json(deleted);
 	} catch (error) {
 		next(error);
 	}
