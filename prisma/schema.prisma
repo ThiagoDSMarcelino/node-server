@@ -73,7 +73,7 @@ model Ticket {
   arrivalAddress    String        @map("arrival_address")
   arrivalDateTime   DateTime      @map("arrival_date_time")
   departureDateTime DateTime      @map("departure_date_time")
-  derpartureAddress String        @map("derparture_address")
+  departureAddress  String        @map("derparture_address")
   transportTypeId   Int           @map("transport_type_id")
   arrivels          Package[]     @relation("arrivel_ticket")
   derpartures       Package[]     @relation("departure_ticket")

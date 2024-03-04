@@ -3,13 +3,14 @@ import { asClass, asFunction, createContainer } from 'awilix';
 import AuthService from '../api/services/AuthService';
 import CreditCardService from '../api/services/CreditCardService';
 import HotelService from '../api/services/HotelService';
+import PackageService from '../api/services/PackageService';
+import PurchaseService from '../api/services/PurchaseService';
 import RoomService from '../api/services/RoomService';
 import SecurityService from '../api/services/SecurityService';
 import TicketService from '../api/services/TicketService';
 import UserService from '../api/services/UserService';
 import IContainer from '../interfaces/IContainer';
 import db from './db';
-import PurchaseService from '../api/services/PurchaseService';
 
 const container = createContainer<IContainer>();
 
@@ -26,7 +27,7 @@ container.register({
 	securityService: asClass(SecurityService).scoped(),
 	ticketService: asClass(TicketService).scoped(),
 	purchaseService: asClass(PurchaseService).scoped(),
-
+	packageService: asClass(PackageService).scoped(),
 });
 
 export default container;

@@ -1,31 +1,31 @@
-import { Purchase, PrismaClient, User } from '@prisma/client';
+import { PrismaClient, Purchase, User } from '@prisma/client';
+
 import IPurchaseService from '../../interfaces/Base/IPurchaseService';
 import IContainer from '../../interfaces/IContainer';
-import ServerError from '../errors/ServerError';
-import EntityError from '../errors/EntityError';
 import AuthError from '../errors/AuthError';
+import EntityError from '../errors/EntityError';
+import ServerError from '../errors/ServerError';
 
-class PurchaseService implements IPurchaseService{
-    private prisma: PrismaClient;
+class PurchaseService implements IPurchaseService {
+	private prisma: PrismaClient;
 
-    public constructor({ prisma }: IContainer) {
+	public constructor({ prisma }: IContainer) {
 		this.prisma = prisma;
 	}
 
-    public async create(data: Purchase, user: User): Promise<Purchase> {
-const purshe:Purchase = {...data, userId: user.id}
+	public async create(data: Purchase, user: User): Promise<Purchase> {
+		const purchase: Purchase = { ...data, userId: user.id };
 
-		const created = await this.prisma.purchase.create({ data: purshe });
+		const created = await this.prisma.purchase.create({ data: purchase });
 		return created;
 	}
 
+	public async list(): Promise<Purchase[]> {
+		const purchases = await this.prisma.purchase.findMany();
+		return purchases;
+	}
 
-    public async list(): Promise<Purchase[]> {
-        const purchases = await this.prisma.purchase.findMany();
-        return purchases;
-    }
-
-    public async find(id: number): Promise<Purchase> {
+	public async find(id: number): Promise<Purchase> {
 		const purchase = await this.prisma.purchase
 			.findFirstOrThrow({
 				where: { id },
@@ -55,4 +55,3 @@ const purshe:Purchase = {...data, userId: user.id}
 }
 
 export default PurchaseService;
-

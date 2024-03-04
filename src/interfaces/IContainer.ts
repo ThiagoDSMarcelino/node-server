@@ -3,11 +3,12 @@ import { PrismaClient } from '@prisma/client';
 import IAuthService from './Base/IAuthService';
 import ICreditCardService from './Base/ICreditCardService';
 import IHotelService from './Base/IHotelService';
+import IPackageService from './Base/IPackageService';
+import IPurchaseService from './Base/IPurchaseService';
 import IRoomService from './Base/IRoomService';
 import ISecurityService from './Base/ISecurityService';
 import ITicketService from './Base/ITicketService';
 import IUserService from './Base/IUserService';
-import IPurchaseService from './Base/IPurchaseService';
 
 interface IContainer {
 	prisma: PrismaClient;
@@ -19,7 +20,7 @@ interface IContainer {
 	ticketService: ITicketService;
 	securityService: ISecurityService;
 	purchaseService: IPurchaseService;
-
+	packageService: IPackageService;
 }
 
 export default IContainer;
