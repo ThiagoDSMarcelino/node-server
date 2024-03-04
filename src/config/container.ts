@@ -22,6 +22,7 @@ container.register({
 	roomService: asClass(RoomService).scoped(),
 	creditCardService: asClass(CreditCardService).scoped(),
 	securityService: asClass(SecurityService).scoped(),
+	ticketService: asClass(TicketService).scoped(),
 });
 
 export default container;
