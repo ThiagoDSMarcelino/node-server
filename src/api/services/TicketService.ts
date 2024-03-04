@@ -13,12 +13,18 @@ class TicketService implements ITicketService {
 		this.prisma = prisma;
 	}
 
-	public async create(data: Ticket, user: User): Promise<Ticket> {
+	public async create(obj: Ticket, user: User): Promise<Ticket> {
 		if (!user.isAdmin) {
 			throw new ServerError(AuthError.adminOnly());
 		}
 
-		const created = await this.prisma.ticket.create({ data: data });
+		const data: Ticket = {
+			...obj,
+			departureDateTime: new Date(obj.departureDateTime),
+			arrivalDateTime: new Date(obj.arrivalDateTime),
+		};
+
+		const created = await this.prisma.ticket.create({ data });
 		return created;
 	}
 
