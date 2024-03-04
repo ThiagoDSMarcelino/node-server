@@ -1,4 +1,4 @@
-import { PrismaClient, Ticket, User } from '@prisma/client';
+import { Class, PrismaClient, Ticket, TransportType, User } from '@prisma/client';
 
 import ITicketService from '../../interfaces/Base/ITicketService';
 import IContainer from '../../interfaces/IContainer';
@@ -42,6 +42,18 @@ class TicketService implements ITicketService {
 			});
 
 		return deleted;
+	}
+
+	public async classes(): Promise<Class[]> {
+		const classes = await this.prisma.class.findMany();
+
+		return classes;
+	}
+
+	public async types(): Promise<TransportType[]> {
+		const types = await this.prisma.transportType.findMany();
+
+		return types;
 	}
 }
 

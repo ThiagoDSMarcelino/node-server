@@ -5,6 +5,7 @@ import CreditCardService from '../api/services/CreditCardService';
 import HotelService from '../api/services/HotelService';
 import RoomService from '../api/services/RoomService';
 import SecurityService from '../api/services/SecurityService';
+import TicketService from '../api/services/TicketService';
 import UserService from '../api/services/UserService';
 import IContainer from '../interfaces/IContainer';
 import db from './db';

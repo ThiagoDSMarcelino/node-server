@@ -43,4 +43,24 @@ TicketRoute.delete('/:id', authHandler, async (req, res, next) => {
 	}
 });
 
+// Classes
+TicketRoute.get('/classes', async (_, res, next) => {
+	try {
+		const classes = await service.classes();
+		return res.status(200).json(classes);
+	} catch (error) {
+		next(error);
+	}
+});
+
+// Types
+TicketRoute.get('/types', async (_, res, next) => {
+	try {
+		const types = await service.types();
+		return res.status(200).json(types);
+	} catch (error) {
+		next(error);
+	}
+});
+
 export default TicketRoute;
