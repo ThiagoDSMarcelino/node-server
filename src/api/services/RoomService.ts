@@ -16,8 +16,8 @@ class RoomService implements IRoomService {
 	public async create(data: Room, user: User): Promise<Room> {
 		if (!user.isAdmin) {
 			throw new ServerError(AuthError.adminOnly());
-        }
-        
+		}
+
 		const isInvalidData = await this.prisma.room
 			.findFirst({
 				where: { name: data.name },
@@ -35,6 +35,18 @@ class RoomService implements IRoomService {
 	public async list(): Promise<Room[]> {
 		const hotels = await this.prisma.room.findMany();
 		return hotels;
+	}
+
+	public async find(id: number): Promise<Room> {
+		const room = await this.prisma.room
+			.findFirstOrThrow({
+				where: { id },
+			})
+			.catch(() => {
+				throw new ServerError(EntityError.notFound());
+			});
+
+		return room;
 	}
 
 	public async delete(id: number, loggedUser: User): Promise<Room> {

@@ -62,7 +62,7 @@ class UserService implements IUserService {
 	public async find(id: string): Promise<User> {
 		const user = await this.prisma.user
 			.findFirstOrThrow({
-				where: { id: id },
+				where: { id },
 			})
 			.catch(() => {
 				throw new ServerError(EntityError.notFound());
