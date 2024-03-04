@@ -9,7 +9,7 @@ import authHandler from '../middleware/authHandler';
 const RoomRoute = Router();
 const service = container.resolve<IRoomService>('roomService');
 
-// Validate
+// Create
 RoomRoute.post('/', authHandler, async (req, res, next) => {
 	try {
 		const room: Room = req.body;
@@ -22,7 +22,7 @@ RoomRoute.post('/', authHandler, async (req, res, next) => {
 });
 
 // List
-RoomRoute.get('/', async (req, res, next) => {
+RoomRoute.get('/', async (_, res, next) => {
 	try {
 		const rooms: Room[] = await service.list();
 		return res.status(200).json(rooms);

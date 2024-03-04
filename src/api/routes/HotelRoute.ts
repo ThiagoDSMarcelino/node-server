@@ -9,7 +9,7 @@ import authHandler from '../middleware/authHandler';
 const HotelRoute = Router();
 const service = container.resolve<IHotelService>('hotelService');
 
-// Validate
+// Create
 HotelRoute.post('/', authHandler, async (req, res, next) => {
 	try {
 		const hotel: Hotel = req.body;
@@ -22,7 +22,7 @@ HotelRoute.post('/', authHandler, async (req, res, next) => {
 });
 
 // List
-HotelRoute.get('/', async (req, res, next) => {
+HotelRoute.get('/', async (_, res, next) => {
 	try {
 		const hotels: Hotel[] = await service.list();
 		return res.status(200).json(hotels);

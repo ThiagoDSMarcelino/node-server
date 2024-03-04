@@ -18,7 +18,7 @@ UserRoute.post('/', async (req, res, next) => {
 	}
 });
 
-// Get by id
+// Find
 UserRoute.get('/:id', async (req, res, next) => {
 	try {
 		const { id } = req.params;

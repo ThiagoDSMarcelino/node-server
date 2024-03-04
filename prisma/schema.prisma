@@ -42,13 +42,14 @@ model Room {
 }
 
 model CreditCard {
-  id         Int      @id @default(autoincrement())
+  id         Int        @id @default(autoincrement())
   number     String
   holder     String
   code       String
   expiration DateTime
-  userId     String   @map("user_id")
-  user       User     @relation(fields: [userId], references: [id])
+  userId     String     @map("user_id")
+  user       User       @relation(fields: [userId], references: [id])
+  purchases  Purchase[]
 }
 
 model TransportType {
@@ -113,13 +114,15 @@ model Status {
 }
 
 model Purchase {
-  id        Int      @id @default(autoincrement())
-  userId    String   @map("user_id")
-  packageId Int      @map("package_id")
-  value     Decimal
-  date      DateTime
-  statusId  Int      @map("status_id")
-  package   Package  @relation(fields: [packageId], references: [id])
-  status    Status   @relation(fields: [statusId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
+  id           Int        @id @default(autoincrement())
+  userId       String     @map("user_id")
+  packageId    Int        @map("package_id")
+  value        Decimal
+  date         DateTime
+  statusId     Int        @map("status_id")
+  creditCardId Int        @map("credit_card_id")
+  creditCard   CreditCard @relation(fields: [creditCardId], references: [id])
+  package      Package    @relation(fields: [packageId], references: [id])
+  status       Status     @relation(fields: [statusId], references: [id])
+  user         User       @relation(fields: [userId], references: [id])
 }

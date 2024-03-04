@@ -4,7 +4,7 @@ import authHandler from '../middleware/authHandler';
 
 const AuthRoute = Router();
 
-// Validate
+// Authenticate
 AuthRoute.all('/', authHandler, async (_, res, __) => {
 	return res.status(200).json(res.locals.user);
 });

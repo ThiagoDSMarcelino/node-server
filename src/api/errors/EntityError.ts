@@ -1,6 +1,20 @@
 import { ServerErrorData } from './ServerError';
 
 class EntityError {
+	static forbidden(): ServerErrorData {
+		const body = {
+			title: 'Forbidden',
+			detail: 'You are not allowed to perform this action',
+		};
+
+		const data = {
+			code: 403,
+			body: body,
+		};
+
+		return data;
+	}
+
 	public static notFound(): ServerErrorData {
 		const body = {
 			title: 'Not Found',
