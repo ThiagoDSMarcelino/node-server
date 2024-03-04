@@ -1,12 +1,13 @@
 import { Router } from 'express';
+
+import { Purchase, User } from '@prisma/client';
+
 import container from '../../config/container';
 import IPurchaseService from '../../interfaces/Base/IPurchaseService';
 import authHandler from '../middleware/authHandler';
-import { Purchase, User } from '@prisma/client';
 
 const PurchaseRoute = Router();
 const service = container.resolve<IPurchaseService>('purchaseService');
-
 
 // Create
 PurchaseRoute.post('/', authHandler, async (req, res, next) => {
@@ -37,6 +38,16 @@ PurchaseRoute.delete('/:id', authHandler, async (req, res, next) => {
 		const user: User = res.locals.user;
 		const deleted: Purchase = await service.delete(id, user);
 		return res.status(200).json(deleted);
+	} catch (error) {
+		next(error);
+	}
+});
+
+// Status
+PurchaseRoute.get('/status', async (_, res, next) => {
+	try {
+		const status = await service.status();
+		return res.status(200).json(status);
 	} catch (error) {
 		next(error);
 	}

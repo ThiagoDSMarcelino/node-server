@@ -1,4 +1,4 @@
-import { PrismaClient, Purchase, User } from '@prisma/client';
+import { PrismaClient, Purchase, Status, User } from '@prisma/client';
 
 import IPurchaseService from '../../interfaces/Base/IPurchaseService';
 import IContainer from '../../interfaces/IContainer';
@@ -51,6 +51,11 @@ class PurchaseService implements IPurchaseService {
 			});
 
 		return deleted;
+	}
+
+	public async status(): Promise<Status[]> {
+		const status = await this.prisma.status.findMany();
+		return status;
 	}
 }
 
