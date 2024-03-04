@@ -4,6 +4,7 @@ import AuthRoute from './AuthRoute';
 import CreditCardRoute from './CreditCardRoute';
 import HotelRoute from './HotelRoute';
 import RoomRoute from './RoomRoute';
+import TicketRoute from './TicketRoute';
 import UserRoute from './UserRoute';
 
 const router = Router();
@@ -15,5 +16,6 @@ router.use('/auth', AuthRoute);
 router.use('/user', UserRoute);
 router.use('/room', RoomRoute);
 router.use('/card', CreditCardRoute);
+router.use('/ticket', TicketRoute);
 
 export default router;

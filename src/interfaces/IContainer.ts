@@ -5,6 +5,7 @@ import ICreditCardService from './Base/ICreditCardService';
 import IHotelService from './Base/IHotelService';
 import IRoomService from './Base/IRoomService';
 import ISecurityService from './Base/ISecurityService';
+import ITicketService from './Base/ITicketService';
 import IUserService from './Base/IUserService';
 
 interface IContainer {
@@ -14,6 +15,7 @@ interface IContainer {
 	hotelService: IHotelService;
 	roomService: IRoomService;
 	creditCardService: ICreditCardService;
+	ticketService: ITicketService;
 	securityService: ISecurityService;
 }
 
