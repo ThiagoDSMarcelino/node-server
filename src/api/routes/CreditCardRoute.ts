@@ -21,6 +21,17 @@ CreditCardRoute.post('/', authHandler, async (req, res, next) => {
 	}
 });
 
+// List
+CreditCardRoute.get('/', authHandler, async (req, res, next) => {
+	try {
+		const user: User = res.locals.user;
+		const cards: CreditCard[] = await service.list(user);
+		return res.status(200).json(cards);
+	} catch (error) {
+		next(error);
+	}
+});
+
 // Delete
 CreditCardRoute.delete('/:id', authHandler, async (req, res, next) => {
 	try {

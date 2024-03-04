@@ -1,6 +1,7 @@
 import { asClass, asFunction, createContainer } from 'awilix';
 
 import AuthService from '../api/services/AuthService';
+import CreditCardService from '../api/services/CreditCardService';
 import HotelService from '../api/services/HotelService';
 import RoomService from '../api/services/RoomService';
 import SecurityService from '../api/services/SecurityService';
@@ -19,6 +20,7 @@ container.register({
 	userService: asClass(UserService).scoped(),
 	authService: asClass(AuthService).scoped(),
 	roomService: asClass(RoomService).scoped(),
+	creditCardService: asClass(CreditCardService).scoped(),
 	securityService: asClass(SecurityService).scoped(),
 });
 

@@ -12,13 +12,22 @@ class CreditCardService implements ICreditCardService {
 		this.prisma = prisma;
 	}
 
-	public async create(obj: CreditCard): Promise<CreditCard> {
-		const created = await this.prisma.creditCard.create({ data: obj });
+	public async create(obj: CreditCard, user: User): Promise<CreditCard> {
+		const data = {
+			...obj,
+			userId: user.id,
+			expiration: new Date(obj.expiration),
+		};
+		
+		const created = await this.prisma.creditCard.create({ data });
 		return created;
 	}
 
-	public async list(): Promise<CreditCard[]> {
-		const cards = await this.prisma.creditCard.findMany();
+	public async list(user: User): Promise<CreditCard[]> {
+		const cards = await this.prisma.creditCard.findMany({
+			where: { userId: user.id },
+		});
+
 		return cards;
 	}
 
