@@ -7,6 +7,7 @@ import IRoomService from './Base/IRoomService';
 import ISecurityService from './Base/ISecurityService';
 import ITicketService from './Base/ITicketService';
 import IUserService from './Base/IUserService';
+import IPurchaseService from './Base/IPurchaseService';
 
 interface IContainer {
 	prisma: PrismaClient;
@@ -17,6 +18,8 @@ interface IContainer {
 	creditCardService: ICreditCardService;
 	ticketService: ITicketService;
 	securityService: ISecurityService;
+	purchaseService: IPurchaseService;
+
 }
 
 export default IContainer;

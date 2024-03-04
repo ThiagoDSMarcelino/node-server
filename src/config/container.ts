@@ -9,6 +9,7 @@ import TicketService from '../api/services/TicketService';
 import UserService from '../api/services/UserService';
 import IContainer from '../interfaces/IContainer';
 import db from './db';
+import PurchaseService from '../api/services/PurchaseService';
 
 const container = createContainer<IContainer>();
 
@@ -24,6 +25,8 @@ container.register({
 	creditCardService: asClass(CreditCardService).scoped(),
 	securityService: asClass(SecurityService).scoped(),
 	ticketService: asClass(TicketService).scoped(),
+	purchaseService: asClass(PurchaseService).scoped(),
+
 });
 
 export default container;
